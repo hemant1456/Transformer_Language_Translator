@@ -18,10 +18,6 @@ class BilingualDataset(L.LightningDataModule):
         self.tokenizer_src = tokenizer_src
         self.tokenizer_tgt = tokenizer_tgt
         self.config = config
-        self.sos_token = torch.tensor([tokenizer_tgt.token_to_id("[SOS]")], dtype=torch.int64)
-        self.eos_token = torch.tensor([tokenizer_tgt.token_to_id("[EOS]")], dtype=torch.int64)
-        self.pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64)
-        self.seq_len = config["seq_len"]
     def __len__(self):
         return len(self.ds)
     def __getitem__(self, index):
@@ -34,5 +30,3 @@ class BilingualDataset(L.LightningDataModule):
         
 
         return src_tokens, tgt_tokens
-
-

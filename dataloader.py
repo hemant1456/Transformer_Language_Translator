@@ -1,4 +1,4 @@
-from dataset_class import BilingualDataset
+from dataset_class import BilingualDataset, causal_mask
 import torch
 from tokenizer import load_or_build_tokenizer, get_sentence_iterator
 from datasets import load_dataset 
@@ -20,10 +20,9 @@ pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64
 def dynamic_padding_collate_fn(batch):
     max_length = 0 
     for src_tokens, tgt_tokens in batch:
-        print(len(src_tokens), len(tgt_tokens))
         max_length = max(max_length, len(src_tokens), len(tgt_tokens))
     
-    print(max_length)
+    
     enc_inputs = []
     dec_inputs = []
     enc_masks = []
@@ -38,7 +37,7 @@ def dynamic_padding_collate_fn(batch):
                 sos_token,
                 torch.tensor(src_tokens, dtype=torch.int64),
                 eos_token,
-                torch.tensor([pad_token] * enc_padding_tokens)
+                torch.tensor([pad_token] * enc_padding_tokens, dtype=torch.int64)
                 
             ])
         enc_inputs.append(enc_input)
@@ -46,7 +45,7 @@ def dynamic_padding_collate_fn(batch):
         dec_input = torch.cat([
                 sos_token,
                 torch.tensor(tgt_tokens),
-                torch.tensor([pad_token] * dec_padding_tokens)
+                torch.tensor([pad_token] * dec_padding_tokens, dtype=torch.int64)
             ])
         dec_inputs.append(dec_input)
         
@@ -65,7 +64,6 @@ def dynamic_padding_collate_fn(batch):
     enc_masks = torch.stack(enc_masks, dim=0)
     dec_masks = torch.stack(dec_masks, dim=0)
     labels = torch.stack(labels, dim=0)
-    print(enc_inputs.shape, dec_inputs.shape, enc_masks.shape, dec_masks.shape, labels.shape)
 
     return enc_inputs, dec_inputs, enc_masks, dec_masks, labels
 
