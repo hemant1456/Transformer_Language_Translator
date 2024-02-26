@@ -18,6 +18,10 @@ eos_token = torch.tensor([tokenizer_tgt.token_to_id("[EOS]")], dtype=torch.int64
 pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64)
 
 def dynamic_padding_collate_fn(batch):
+    '''
+    this function dynamically pads based on maximum input size thus saving lots of computation
+    returns: encoder_mask of shape (batch_size, 1, 1, seq_len), decoder_mask of shape (batch_size, 1, seq_len, seq_len)
+    '''
     max_length = 0 
     for src_text, tgt_text in batch:
         src_tokens = tokenizer_src.encode(src_text).ids
@@ -27,8 +31,6 @@ def dynamic_padding_collate_fn(batch):
     
     enc_inputs = []
     dec_inputs = []
-    enc_masks = []
-    dec_masks = []
     labels = []
     src_texts = []
     tgt_texts = []
@@ -65,16 +67,16 @@ def dynamic_padding_collate_fn(batch):
             ])
         labels.append(label)
 
-        enc_masks.append(enc_input!=pad_token)
-        dec_masks.append(dec_input!=pad_token & causal_mask(max_length+2))
-
     enc_inputs = torch.stack(enc_inputs,dim=0)
     dec_inputs = torch.stack(dec_inputs, dim=0)
-    enc_masks = torch.stack(enc_masks, dim=0)
-    dec_masks = torch.stack(dec_masks, dim=0)
+    encoder_mask = (enc_inputs != pad_token).unsqueeze(1).unsqueeze(1).int()
+    #1 1 52 52
+    #8 1  1 52
+    decoder_mask = (causal_mask(dec_inputs.size(1)) & (dec_inputs != pad_token).unsqueeze(1)).unsqueeze(1)
+
     labels = torch.stack(labels, dim=0)
 
-    return enc_inputs, dec_inputs, enc_masks, dec_masks, labels, src_texts, tgt_texts
+    return enc_inputs, dec_inputs, encoder_mask, decoder_mask, labels, src_texts, tgt_texts
 
 def get_max_seq_length(ds_raw):
     '''
