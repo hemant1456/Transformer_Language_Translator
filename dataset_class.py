@@ -31,37 +31,8 @@ class BilingualDataset(L.LightningDataModule):
 
         src_tokens = self.tokenizer_src.encode(src_text).ids
         tgt_tokens = self.tokenizer_tgt.encode(tgt_text).ids
-
-        enc_padding_tokens = self.seq_len - 2 - len(src_tokens)
-        dec_padding_tokens = self.seq_len - 1 - len(tgt_tokens)
-
-        assert enc_padding_tokens>0 and dec_padding_tokens>0, "sentence length is too long"
-
-        enc_input = torch.cat([
-            self.sos_token,
-            torch.tensor(src_tokens, dtype=torch.int64),
-            self.eos_token,
-            torch.tensor([self.pad_token] * enc_padding_tokens)
-            
-        ]).unsqueeze(0)
-        dec_input = torch.cat([
-            self.sos_token,
-            torch.tensor(tgt_tokens),
-            torch.tensor([self.pad_token] * dec_padding_tokens)
-        ]).unsqueeze(0)
-
-        label = torch.cat([
-            torch.tensor(tgt_tokens),
-            self.eos_token,
-            torch.tensor([self.pad_token] * dec_padding_tokens)
-        ]).unsqueeze(0)
         
-        enc_mask = enc_input!=self.pad_token
 
-        dec_mask = dec_input!=self.pad_token & causal_mask(enc_input.size(1))
-
-        assert len(enc_input)==len(dec_input)==len(label)
-
-        return enc_input, dec_input, label, enc_mask, dec_mask
+        return src_tokens, tgt_tokens
 
 

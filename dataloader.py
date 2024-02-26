@@ -13,6 +13,62 @@ tokenizer_src = load_or_build_tokenizer(config['tokenizer_file'], dsi_src, confi
 dsi_tgt = get_sentence_iterator(ds_raw,config["lang_tgt"])
 tokenizer_tgt = load_or_build_tokenizer(config['tokenizer_file'], dsi_tgt, config["lang_tgt"])
 
+sos_token = torch.tensor([tokenizer_tgt.token_to_id("[SOS]")], dtype=torch.int64)
+eos_token = torch.tensor([tokenizer_tgt.token_to_id("[EOS]")], dtype=torch.int64)
+pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64)
+
+def dynamic_padding_collate_fn(batch):
+    max_length = 0 
+    for src_tokens, tgt_tokens in batch:
+        print(len(src_tokens), len(tgt_tokens))
+        max_length = max(max_length, len(src_tokens), len(tgt_tokens))
+    
+    print(max_length)
+    enc_inputs = []
+    dec_inputs = []
+    enc_masks = []
+    dec_masks = []
+    labels = []
+    
+    for src_tokens, tgt_tokens in batch:
+        enc_padding_tokens = max_length - len(src_tokens) 
+        dec_padding_tokens = max_length +1 - len(tgt_tokens) 
+
+        enc_input = torch.cat([
+                sos_token,
+                torch.tensor(src_tokens, dtype=torch.int64),
+                eos_token,
+                torch.tensor([pad_token] * enc_padding_tokens)
+                
+            ])
+        enc_inputs.append(enc_input)
+
+        dec_input = torch.cat([
+                sos_token,
+                torch.tensor(tgt_tokens),
+                torch.tensor([pad_token] * dec_padding_tokens)
+            ])
+        dec_inputs.append(dec_input)
+        
+        label = torch.cat ([
+                torch.tensor(tgt_tokens, dtype= torch.int64),
+                eos_token,
+                torch.tensor([pad_token]* dec_padding_tokens, dtype = torch.int64)
+            ])
+        labels.append(label)
+
+        enc_masks.append(enc_input!=pad_token)
+        dec_masks.append(dec_input!=pad_token & causal_mask(max_length+2))
+
+    enc_inputs = torch.stack(enc_inputs,dim=0)
+    dec_inputs = torch.stack(dec_inputs, dim=0)
+    enc_masks = torch.stack(enc_masks, dim=0)
+    dec_masks = torch.stack(dec_masks, dim=0)
+    labels = torch.stack(labels, dim=0)
+    print(enc_inputs.shape, dec_inputs.shape, enc_masks.shape, dec_masks.shape, labels.shape)
+
+    return enc_inputs, dec_inputs, enc_masks, dec_masks, labels
+
 def get_max_seq_length(ds_raw):
     '''
     prints the maximum length of a sentence, it is crucial as it will decide the seq length of our model
@@ -44,8 +100,8 @@ def get_dataloaders(config, ds_raw, tokenizer_src, tokenizer_tgt):
     train_ds = BilingualDataset(config, train_ds_raw, tokenizer_src, tokenizer_tgt)
     val_ds = BilingualDataset(config, val_ds_raw, tokenizer_src, tokenizer_tgt)
 
-    train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], shuffle=True)
-    val_dataloader = torch.utils.data.DataLoader(val_ds, batch_size=1, shuffle=True)
+    train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], shuffle=True, collate_fn=dynamic_padding_collate_fn)
+    val_dataloader = torch.utils.data.DataLoader(val_ds, batch_size=1, shuffle=True, collate_fn=dynamic_padding_collate_fn)
 
     return train_dataloader, val_dataloader
     
