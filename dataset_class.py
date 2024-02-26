@@ -18,15 +18,13 @@ class BilingualDataset(L.LightningDataModule):
         self.tokenizer_src = tokenizer_src
         self.tokenizer_tgt = tokenizer_tgt
         self.config = config
+        self.seq_len = config["seq_len"]
     def __len__(self):
         return len(self.ds)
     def __getitem__(self, index):
         src_tgt_pair = self.ds[index]
         src_text = src_tgt_pair["translation"][self.config["lang_src"]]
         tgt_text = src_tgt_pair["translation"][self.config["lang_tgt"]]
-
-        src_tokens = self.tokenizer_src.encode(src_text).ids
-        tgt_tokens = self.tokenizer_tgt.encode(tgt_text).ids
         
 
-        return src_tokens, tgt_tokens
+        return src_text, tgt_text

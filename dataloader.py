@@ -19,7 +19,9 @@ pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64
 
 def dynamic_padding_collate_fn(batch):
     max_length = 0 
-    for src_tokens, tgt_tokens in batch:
+    for src_text, tgt_text in batch:
+        src_tokens = tokenizer_src.encode(src_text).ids
+        tgt_tokens = tokenizer_tgt.encode(tgt_text).ids
         max_length = max(max_length, len(src_tokens), len(tgt_tokens))
     
     
@@ -28,8 +30,15 @@ def dynamic_padding_collate_fn(batch):
     enc_masks = []
     dec_masks = []
     labels = []
+    src_texts = []
+    tgt_texts = []
     
-    for src_tokens, tgt_tokens in batch:
+    for src_text, tgt_text in batch:
+        src_texts.append(src_text)
+        tgt_texts.append(tgt_text)
+
+        src_tokens = tokenizer_src.encode(src_text).ids
+        tgt_tokens = tokenizer_tgt.encode(tgt_text).ids
         enc_padding_tokens = max_length - len(src_tokens) 
         dec_padding_tokens = max_length +1 - len(tgt_tokens) 
 
@@ -65,7 +74,7 @@ def dynamic_padding_collate_fn(batch):
     dec_masks = torch.stack(dec_masks, dim=0)
     labels = torch.stack(labels, dim=0)
 
-    return enc_inputs, dec_inputs, enc_masks, dec_masks, labels
+    return enc_inputs, dec_inputs, enc_masks, dec_masks, labels, src_texts, tgt_texts
 
 def get_max_seq_length(ds_raw):
     '''
