@@ -1,17 +1,11 @@
 from dataset_class import BilingualDataset, causal_mask
 import torch
-from tokenizer import load_or_build_tokenizer, get_sentence_iterator
-from datasets import load_dataset 
+from tokenizer import get_tokenizers
 from config import get_config
+from datasets import load_dataset
 
 config = get_config()
-ds_raw = load_dataset('opus_books', f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')
-
-dsi_src = get_sentence_iterator(ds_raw,config["lang_src"])
-tokenizer_src = load_or_build_tokenizer(config['tokenizer_file'], dsi_src, config['lang_src'])
-
-dsi_tgt = get_sentence_iterator(ds_raw,config["lang_tgt"])
-tokenizer_tgt = load_or_build_tokenizer(config['tokenizer_file'], dsi_tgt, config["lang_tgt"])
+tokenizer_src, tokenizer_tgt = get_tokenizers()
 
 sos_token = torch.tensor([tokenizer_tgt.token_to_id("[SOS]")], dtype=torch.int64)
 eos_token = torch.tensor([tokenizer_tgt.token_to_id("[EOS]")], dtype=torch.int64)
@@ -94,14 +88,13 @@ def get_max_seq_length(ds_raw):
     print(f'Max length of target senentece: {max_len_tgt}')
 
 
-def get_dataloaders(config, ds_raw, tokenizer_src, tokenizer_tgt):
+def get_dataloaders():
     '''
     simple functions to get dataloaders
     we have divided our dataset into 90% train and 10% validation
     for validation we will be taking 1 batch at a time
     '''
-    get_max_seq_length(ds_raw)
-
+    ds_raw = load_dataset('opus_books', f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')
     train_ds_size = int(0.9* len(ds_raw))
     val_ds_size = len(ds_raw) - train_ds_size
 

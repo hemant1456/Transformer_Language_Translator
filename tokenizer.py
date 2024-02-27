@@ -4,6 +4,11 @@ from tokenizers.models import WordLevel
 from tokenizers.pre_tokenizers import Whitespace
 from tokenizers.trainers import WordLevelTrainer
 from pathlib import Path
+from config import get_config
+from datasets import load_dataset
+
+config = get_config()
+
 def load_or_build_tokenizer(tokenizer_file: str, ds_i: Iterator, lang: str) ->Tokenizer:
     ''' 
     Builds a Tokenizer if it doesn't exist else it loads already build tokenizer
@@ -32,3 +37,14 @@ def get_sentence_iterator(ds, lang):
     '''
     for item in ds:
         yield item['translation'][lang]
+
+def get_tokenizers():
+    
+    ds_raw = load_dataset('opus_books', f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')
+    dsi_src = get_sentence_iterator(ds_raw,config["lang_src"])
+    tokenizer_src = load_or_build_tokenizer(config['tokenizer_file'], dsi_src, config['lang_src'])
+
+    dsi_tgt = get_sentence_iterator(ds_raw,config["lang_tgt"])
+    tokenizer_tgt = load_or_build_tokenizer(config['tokenizer_file'], dsi_tgt, config["lang_tgt"])
+    
+    return tokenizer_src, tokenizer_tgt
