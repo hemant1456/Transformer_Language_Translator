@@ -11,6 +11,8 @@ sos_token = torch.tensor([tokenizer_tgt.token_to_id("[SOS]")], dtype=torch.int64
 eos_token = torch.tensor([tokenizer_tgt.token_to_id("[EOS]")], dtype=torch.int64)
 pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64)
 
+
+
 def dynamic_padding_collate_fn(batch):
     '''
     this function dynamically pads based on maximum input size thus saving lots of computation
@@ -87,6 +89,12 @@ def get_max_seq_length(ds_raw):
     print(f'Max length of source sentence : {max_len_src}')
     print(f'Max length of target senentece: {max_len_tgt}')
 
+def data_cleanup(ds_raw):
+    cleanup = []
+    for item in ds_raw:
+        if len(item['translation']['en'].split(" "))<=150 and len(item['translation']['fr'].split(" "))<=160:
+            cleanup.append(item)
+    return cleanup
 
 def get_dataloaders():
     '''
@@ -95,6 +103,8 @@ def get_dataloaders():
     for validation we will be taking 1 batch at a time
     '''
     ds_raw = load_dataset('opus_books', f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')
+    ds_raw = data_cleanup(ds_raw)
+    get_max_seq_length(ds_raw)
     train_ds_size = int(0.9* len(ds_raw))
     val_ds_size = len(ds_raw) - train_ds_size
 
@@ -102,8 +112,8 @@ def get_dataloaders():
     train_ds = BilingualDataset(config, train_ds_raw, tokenizer_src, tokenizer_tgt)
     val_ds = BilingualDataset(config, val_ds_raw, tokenizer_src, tokenizer_tgt)
 
-    train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], shuffle=True, collate_fn=dynamic_padding_collate_fn)
+    train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], num_workers=5,persistent_workers=True,pin_memory=True, shuffle=True, collate_fn=dynamic_padding_collate_fn)
     val_dataloader = torch.utils.data.DataLoader(val_ds, batch_size=1, shuffle=True, collate_fn=dynamic_padding_collate_fn)
 
     return train_dataloader, val_dataloader
-    
+
