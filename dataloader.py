@@ -82,7 +82,7 @@ def get_max_seq_length(ds_raw):
     max_len_tgt = 0
     for item in ds_raw:
         src_ids = tokenizer_src.encode(item['translation'][config['lang_src']]).ids
-        tgt_ids = tokenizer_src.encode(item['translation'][config['lang_tgt']]).ids
+        tgt_ids = tokenizer_tgt.encode(item['translation'][config['lang_tgt']]).ids
         max_len_src = max(max_len_src, len(src_ids))
         max_len_tgt = max(max_len_tgt, len(tgt_ids))
     
@@ -90,11 +90,11 @@ def get_max_seq_length(ds_raw):
     print(f'Max length of target senentece: {max_len_tgt}')
 
 def data_cleanup(ds_raw):
-    cleanup = []
-    for item in ds_raw:
-        if len(item['translation']['en'].split(" "))<=150 and len(item['translation']['fr'].split(" "))<=160:
-            cleanup.append(item)
-    return cleanup
+    print(type(ds_raw))
+    ds_raw = list(ds_raw)
+    filtered_data = filter(lambda item: len(item['translation']['en'].split(" "))<=150 and len(item['translation']['fr'].split(" "))<=150,ds_raw)
+    sorted_data = sorted(filtered_data, key = lambda item: len(item['translation']['en'].split(" ")))
+    return sorted_data
 
 def get_dataloaders():
     '''
@@ -103,16 +103,18 @@ def get_dataloaders():
     for validation we will be taking 1 batch at a time
     '''
     ds_raw = load_dataset('opus_books', f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')
-    ds_raw = data_cleanup(ds_raw)
+    
     get_max_seq_length(ds_raw)
     train_ds_size = int(0.9* len(ds_raw))
     val_ds_size = len(ds_raw) - train_ds_size
 
     train_ds_raw, val_ds_raw = torch.utils.data.random_split(ds_raw, [train_ds_size, val_ds_size])
+    train_ds_raw = data_cleanup(train_ds_raw)
+    val_ds_raw = data_cleanup(val_ds_raw)
     train_ds = BilingualDataset(config, train_ds_raw, tokenizer_src, tokenizer_tgt)
     val_ds = BilingualDataset(config, val_ds_raw, tokenizer_src, tokenizer_tgt)
 
-    train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], num_workers=5,persistent_workers=True,pin_memory=True, shuffle=True, collate_fn=dynamic_padding_collate_fn)
+    train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], num_workers=5,persistent_workers=True,pin_memory=True, shuffle=False, collate_fn=dynamic_padding_collate_fn)
     val_dataloader = torch.utils.data.DataLoader(val_ds, batch_size=1, shuffle=True, collate_fn=dynamic_padding_collate_fn)
 
     return train_dataloader, val_dataloader
