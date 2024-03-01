@@ -16,7 +16,7 @@ class ResidualConnection(nn.Module):
         self.layernorm = nn.LayerNorm(d_model)
         self.dropout = nn.Dropout(dropout)
     def forward(self,x, sublayer):
-        x= self.dropout(x + sublayer(self.layernorm(x)))
+        x= x + self.dropout(sublayer(self.layernorm(x)))
         return x
 
 class ProjectionLayer(nn.Module):
@@ -24,4 +24,4 @@ class ProjectionLayer(nn.Module):
         super().__init__()
         self.proj = nn.Linear(d_model,vocab_size)
     def forward(self,x):
-        return nn.functional.log_softmax(self.proj(x), dim=-1)
+        return self.proj(x)
