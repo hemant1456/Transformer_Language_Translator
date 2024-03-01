@@ -16,7 +16,7 @@ class ResidualConnection(nn.Module):
         self.layernorm = nn.LayerNorm(d_model)
         self.dropout = nn.Dropout(dropout)
     def forward(self,x, sublayer):
-        x= x + self.dropout(sublayer(self.norm(x)))
+        x= self.dropout(x + sublayer(self.layernorm(x)))
         return x
 
 class ProjectionLayer(nn.Module):
