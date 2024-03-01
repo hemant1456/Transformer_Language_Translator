@@ -1,6 +1,5 @@
 import torch.nn as nn
-from model_component import FeedForwardBlock, ResidualConnection
-from multiheadattention import MultiHeadAttentionBlock
+from model_component import ResidualConnection
 
 from configuration import get_config
 config = get_config()
@@ -10,9 +9,10 @@ class EncoderBlock(nn.Module):
         super().__init__()
         self.attention_block = attention_block
         self.feed_forward_block = feed_forward_block
-        self.res_block1 = ResidualConnection(config['d_model'], nn.Dropout(config['dropout']))
+        self.res_blocks = [ResidualConnection(config['d_model'], nn.Dropout(config['dropout'])) for _ in range(2)]
     def forward(self,x, src_mask):
-        x = self.res_block1(x, lambda x: self.attention_block(x,x,x,src_mask))
+        x = self.res_blocks[0](x, lambda x: self.attention_block(x,x,x,src_mask))
+        x = self.res_blocks[1](self.feed_forward_block)
 
 class Encoder(nn.Module):
     def __init__(self, layers):
