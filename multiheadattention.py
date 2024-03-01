@@ -1,6 +1,11 @@
 from lightning import LightningModule
 import torch.nn as nn
 import math
+from configuration import get_config
+
+config = get_config()
+
+
 class MultiHeadAttentionBlock(nn.Module):
     '''
     class to implement multihead attention
@@ -23,9 +28,16 @@ class MultiHeadAttentionBlock(nn.Module):
     def attention(query, key, value, mask, dropout):
         '''
         class method to calculate attention scores
-        we replace the masked values to be near negative infinity
-        attention shape= (batch, seq_len, head, dim_k).transpose(1,2) @ (batch, seq_len, head, dim_k) => (batch, head, seq_len, seq_len)
+
+        input shapes for key, query and values is (batch, heads, seq_len, d_model//heads)
+        input shape for mask is (seq_len, seq_len)
+        
+        we replace the masked values to be near negative infinity to get 0 value in softmax
+        attention shape= (batch, head, seq_len, dim_k).transpose(1,2) @ (batch, head, seq_len, dim_k) => (batch, head, seq_len, seq_len)
         '''
+        assert value.size(1)==key.size(1)==query.size(1)== config.heads, "incorrect dimensions for either of key query of value"
+        assert value.size(-11)==key.size(-1)==query.size(-1)== config.d_model//config.heads, "incorrect dimensions for either of key query of value"
+        
         d_k = query.shape[-1]
         attention_scores = query @ key.transpose(-2,-1) / math.sqrt(d_k)
         if mask is not None:
@@ -45,5 +57,6 @@ class MultiHeadAttentionBlock(nn.Module):
         key = key.view(key.shape[0], key.shape[1], self.h, self.d_k).transpose(1,2)
         value = value.view(value.shape[0], value.shape[1], self.h, self.d_k).transpose(1,2)
         x ,self.attention_scores = MultiHeadAttentionBlock.attention(query, key, value, mask, self.dropout)
-        x = x.transpose(1,2).contiguous().view(x.shape[0], x.shape[-2], self.h * self.d_k)
+        x = x.transpose(1,2).contiguous() #interchange head and seq_len dimension
+        x = x.view(x.shape[0], x.shape[1], self.h * self.d_k)
         return self.w_o(x)

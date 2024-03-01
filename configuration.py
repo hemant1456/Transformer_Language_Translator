@@ -9,7 +9,7 @@ def get_config():
         "batch_size": 8, 
         "num_epochs": 20,
         "lr": 1e-4,
-        "h": 8, #number of heads
+        "heads": 8, #number of heads
         "seq_len": 160,
         "d_model": 512,
         "d_ff": 248, #dimension_feed_forward
