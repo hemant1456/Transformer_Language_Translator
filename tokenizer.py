@@ -24,7 +24,7 @@ def load_or_build_tokenizer(tokenizer_file: str, ds_i: Iterator, lang: str) ->To
     else:
         tokenizer = Tokenizer(WordLevel(unk_token="[UNK]"))
         tokenizer.pre_tokenizer = Whitespace()
-        trainer = WordLevelTrainer(min_frequency=2, show_progress= True, special_tokens = ["[UNK]","[PAD]","[SOS]","[EOS]"])
+        trainer = WordLevelTrainer(min_frequency=config["min_frequency"], show_progress= True, special_tokens = ["[UNK]","[PAD]","[SOS]","[EOS]"])
         tokenizer.train_from_iterator(ds_i, trainer)
         tokenizer.save(str(tokenizer_path))
     return tokenizer
