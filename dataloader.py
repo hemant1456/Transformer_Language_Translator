@@ -1,7 +1,7 @@
 from dataset_class import BilingualDataset, causal_mask
 import torch
 from tokenizer import get_tokenizers
-from config import get_config
+from configuration import get_config
 from datasets import load_dataset
 import time
 

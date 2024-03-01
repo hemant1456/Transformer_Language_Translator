@@ -4,7 +4,7 @@ from tokenizers.models import WordLevel
 from tokenizers.pre_tokenizers import Whitespace
 from tokenizers.trainers import WordLevelTrainer
 from pathlib import Path
-from config import get_config
+from configuration import get_config
 from datasets import load_dataset
 import time
 
