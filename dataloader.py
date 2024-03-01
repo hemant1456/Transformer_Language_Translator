@@ -118,7 +118,7 @@ def get_dataloaders(tokenizer_src, tokenizer_tgt):
     train_ds = BilingualDataset(config, train_ds_raw, tokenizer_src, tokenizer_tgt)
     val_ds = BilingualDataset(config, val_ds_raw, tokenizer_src, tokenizer_tgt)
 
-    train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], num_workers=5,persistent_workers=True,pin_memory=True, shuffle=False, collate_fn=dynamic_padding_collate_fn)
+    train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], num_workers=5,persistent_workers=True,pin_memory=True, shuffle=False, collate_fn=lambda batch: dynamic_padding_collate_fn(batch, tokenizer_src, tokenizer_tgt))
     val_dataloader = torch.utils.data.DataLoader(val_ds, batch_size=1, shuffle=True, collate_fn=lambda batch: dynamic_padding_collate_fn(batch, tokenizer_src, tokenizer_tgt))
     end_time= time.time()
     time_taken = end_time-start_time
