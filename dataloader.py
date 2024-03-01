@@ -6,15 +6,9 @@ from datasets import load_dataset
 import time
 
 config = get_config()
-tokenizer_src, tokenizer_tgt = get_tokenizers()
-
-sos_token = torch.tensor([tokenizer_tgt.token_to_id("[SOS]")], dtype=torch.int64)
-eos_token = torch.tensor([tokenizer_tgt.token_to_id("[EOS]")], dtype=torch.int64)
-pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64)
 
 
-
-def dynamic_padding_collate_fn(batch):
+def dynamic_padding_collate_fn(batch, tokenizer_src, tokenizer_tgt):
     '''
     this function dynamically pads based on maximum input size thus saving lots of computation
     returns: encoder_mask of shape (batch_size, 1, 1, seq_len), decoder_mask of shape (batch_size, 1, seq_len, seq_len)
@@ -31,6 +25,10 @@ def dynamic_padding_collate_fn(batch):
     labels = []
     src_texts = []
     tgt_texts = []
+
+    sos_token = torch.tensor([tokenizer_tgt.token_to_id("[SOS]")], dtype=torch.int64)
+    eos_token = torch.tensor([tokenizer_tgt.token_to_id("[EOS]")], dtype=torch.int64)
+    pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64)
     
     for src_text, tgt_text in batch:
         src_texts.append(src_text)
@@ -75,7 +73,7 @@ def dynamic_padding_collate_fn(batch):
 
     return enc_inputs, dec_inputs, encoder_mask, decoder_mask, labels, src_texts, tgt_texts
 
-def get_max_seq_length(ds_raw):
+def get_max_seq_length(ds_raw, tokenizer_src, tokenizer_tgt):
     '''
     prints the maximum length of a sentence, it is crucial as it will decide the seq length of our model
     '''
@@ -90,7 +88,7 @@ def get_max_seq_length(ds_raw):
     print(f'Max length of source sentence : {max_len_src}')
     print(f'Max length of target senentece: {max_len_tgt}')
 
-def data_cleanup(ds_raw):
+def data_cleanup(ds_raw, tokenizer_src, tokenizer_tgt):
     ds_raw = list(ds_raw)
     filtered_data = []
     for item in ds_raw:
@@ -102,7 +100,7 @@ def data_cleanup(ds_raw):
 
 
 
-def get_dataloaders():
+def get_dataloaders(tokenizer_src, tokenizer_tgt):
     '''
     simple functions to get dataloaders
     we have divided our dataset into 90% train and 10% validation
@@ -111,8 +109,8 @@ def get_dataloaders():
     print("---The dataloaders are being created---")
     start_time = time.time()
     ds_raw = load_dataset('opus_books', f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')
-    ds_raw = data_cleanup(ds_raw)
-    get_max_seq_length(ds_raw)
+    ds_raw = data_cleanup(ds_raw, tokenizer_src, tokenizer_tgt)
+    get_max_seq_length(ds_raw, tokenizer_src, tokenizer_tgt)
     train_ds_size = int(0.9* len(ds_raw))
     val_ds_size = len(ds_raw) - train_ds_size
 
@@ -121,7 +119,7 @@ def get_dataloaders():
     val_ds = BilingualDataset(config, val_ds_raw, tokenizer_src, tokenizer_tgt)
 
     train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], num_workers=5,persistent_workers=True,pin_memory=True, shuffle=False, collate_fn=dynamic_padding_collate_fn)
-    val_dataloader = torch.utils.data.DataLoader(val_ds, batch_size=1, shuffle=True, collate_fn=dynamic_padding_collate_fn)
+    val_dataloader = torch.utils.data.DataLoader(val_ds, batch_size=1, shuffle=True, collate_fn=lambda batch: dynamic_padding_collate_fn(batch, tokenizer_src, tokenizer_tgt))
     end_time= time.time()
     time_taken = end_time-start_time
     print(f"---Dataloaders Created---{time_taken = :.2f} seconds")
