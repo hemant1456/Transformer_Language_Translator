@@ -1,7 +1,7 @@
 from lightning import LightningModule
 import torch.nn as nn
 import math
-class MultiHeadAttentionBlock(LightningModule):
+class MultiHeadAttentionBlock(nn.Module):
     '''
     class to implement multihead attention
     inputs: d_model: dimension of input, h: number of heads, dropout: %dropout
