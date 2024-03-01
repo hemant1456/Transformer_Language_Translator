@@ -6,6 +6,7 @@ from tokenizers.trainers import WordLevelTrainer
 from pathlib import Path
 from config import get_config
 from datasets import load_dataset
+import time
 
 config = get_config()
 
@@ -39,12 +40,16 @@ def get_sentence_iterator(ds, lang):
         yield item['translation'][lang]
 
 def get_tokenizers():
-    
+    print("---Creating Tokenizers---")
+    start_time = time.time()
     ds_raw = load_dataset('opus_books', f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')
     dsi_src = get_sentence_iterator(ds_raw,config["lang_src"])
     tokenizer_src = load_or_build_tokenizer(config['tokenizer_file'], dsi_src, config['lang_src'])
 
     dsi_tgt = get_sentence_iterator(ds_raw,config["lang_tgt"])
     tokenizer_tgt = load_or_build_tokenizer(config['tokenizer_file'], dsi_tgt, config["lang_tgt"])
+    end_time = time.time()
+    time_taken = end_time-start_time
+    print(f"---Tokenizers Created---{time_taken = :.2f} seconds")
     
     return tokenizer_src, tokenizer_tgt

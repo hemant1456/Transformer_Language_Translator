@@ -3,6 +3,7 @@ import torch
 from tokenizer import get_tokenizers
 from config import get_config
 from datasets import load_dataset
+import time
 
 config = get_config()
 tokenizer_src, tokenizer_tgt = get_tokenizers()
@@ -107,6 +108,8 @@ def get_dataloaders():
     we have divided our dataset into 90% train and 10% validation
     for validation we will be taking 1 batch at a time
     '''
+    print("---The dataloaders are being created---")
+    start_time = time.time()
     ds_raw = load_dataset('opus_books', f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')
     ds_raw = data_cleanup(ds_raw)
     get_max_seq_length(ds_raw)
@@ -119,6 +122,8 @@ def get_dataloaders():
 
     train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], num_workers=5,persistent_workers=True,pin_memory=True, shuffle=False, collate_fn=dynamic_padding_collate_fn)
     val_dataloader = torch.utils.data.DataLoader(val_ds, batch_size=1, shuffle=True, collate_fn=dynamic_padding_collate_fn)
-
+    end_time= time.time()
+    time_taken = end_time-start_time
+    print(f"---Dataloaders Created---{time_taken = :.2f} seconds")
     return train_dataloader, val_dataloader
 

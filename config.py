@@ -13,7 +13,7 @@ def get_config():
         "d_model": 512,
         "d_ff": 248, #dimension_feed_forward
         "lang_src": 'en',
-        "lang_tgt": 'it',
+        "lang_tgt": 'fr',
         "model_folder": "weights",
         "model_basename": "tmodel_",
         "preload": None,
