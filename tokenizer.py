@@ -51,5 +51,7 @@ def get_tokenizers():
     end_time = time.time()
     time_taken = end_time-start_time
     print(f"---Tokenizers Created---{time_taken = :.2f} seconds")
+    print(f"{config['lang_src']}  vocab size is {tokenizer_src.get_vocab_size()}")
+    print(f"{config['lang_tgt']}  vocab size is {tokenizer_tgt.get_vocab_size()}")
     
     return tokenizer_src, tokenizer_tgt
