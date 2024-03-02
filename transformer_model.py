@@ -12,7 +12,7 @@ import torch.nn.functional as F
 config = get_config()
 
 class Transformer(LightningModule):
-    def __init__(self, src_embed, tgt_embed, src_pos, tgt_pos, encoder, decoder, project, pad_token):
+    def __init__(self, src_embed, tgt_embed, src_pos, tgt_pos, encoder, decoder, project, pad_token,tgt_vocab_size):
         super().__init__()
         self.src_embed= src_embed
         self.tgt_embed= tgt_embed
@@ -20,14 +20,15 @@ class Transformer(LightningModule):
         self.tgt_pos = tgt_pos
         self.encoder = encoder
         self.decoder= decoder
-        self.project= project
+        self.projection= project
         self.pad_token = pad_token
+        self.tgt_vocab_size = tgt_vocab_size
     def training_step(self, batch, batch_idx):
         enc_inputs, dec_inputs, src_mask, tgt_mask, labels, src_texts, tgt_texts = batch 
         encoder_output = self.encode(enc_inputs, src_mask)
         x = self.decode(dec_inputs, encoder_output, src_mask, tgt_mask)
         x = self.project(x)
-        loss = F.cross_entropy(x, labels, ignore_index= self.pad_token)
+        loss = F.cross_entropy(x.view(-1, self.tgt_vocab_size), labels.view(-1), ignore_index= self.pad_token)
         self.log("train_loss",loss, prog_bar=True, on_step=True)
         return loss
     def configure_optimizers(self):
@@ -44,7 +45,7 @@ class Transformer(LightningModule):
         x = self.decoder(x, encoder_output, src_mask, tgt_mask)
         return x
     def project(self,x):
-        x = self.project(x)
+        x = self.projection(x)
         return x
     
 def build_transformer(tokenizer_src, tokenizer_tgt):
@@ -69,7 +70,8 @@ def build_transformer(tokenizer_src, tokenizer_tgt):
     
     encoder = Encoder(nn.ModuleList(encoder_blocks))
     decoder = Decoder(nn.ModuleList(decoder_blocks))
+    tgt_vocab_size = tokenizer_tgt.get_vocab_size()
 
     project = ProjectionLayer(config["d_model"], tokenizer_tgt.get_vocab_size())
-    transformer = Transformer(src_embed, tgt_embed, src_pos, tgt_pos, encoder, decoder, project,pad_token)
+    transformer = Transformer(src_embed, tgt_embed, src_pos, tgt_pos, encoder, decoder, project,pad_token,tgt_vocab_size)
     return transformer

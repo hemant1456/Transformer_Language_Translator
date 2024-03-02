@@ -15,6 +15,7 @@ class DecoderBlock(nn.Module):
         x = self.res_blocks[0](x, lambda x: self.attention_block(x,x,x,src_mask))
         x = self.res_blocks[1](x, lambda x: self.cross_attention_block(x,encoder_output,encoder_output,tgt_mask))
         x = self.res_blocks[2](x, self.feed_forward_block)
+        return x
 
 class Decoder(nn.Module):
     def __init__(self, layers):
