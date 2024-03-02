@@ -30,3 +30,4 @@ if __name__ == "__main__":
     trainer = L.Trainer(max_epochs=config["num_epochs"], accelerator=config["accelerator"], devices=config["devices"],
                         callbacks=[ModelCheckpoint(config["model_weights_directory"])],limit_val_batches=10)
     trainer.fit(model, train_loader, val_loader)
+    torch.save(model, f'{config["lang_src"]}-{config["lang_tgt"]}_translator_model.pth')
