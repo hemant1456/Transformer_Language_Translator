@@ -11,12 +11,14 @@ def get_config():
         "num_epochs": 20,
         "lr": 1e-4,
         "heads": 8, #number of heads
-        "seq_len": 160,
+        "seq_len": 165,
         "d_model": 512,
         "d_ff": 248, #dimension_feed_forward
         "dropout": 0.1,
         "num_encoder_blocks":6,
         "num_decoder_blocks":6,
+        "accelerator": "cpu",
+        "devices": 1,
         "lang_src": 'en',
         "lang_tgt": 'fr',
         "model_folder": "weights",
