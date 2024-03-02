@@ -5,21 +5,23 @@ from configuration import get_config
 from transformer_model import build_transformer
 from lightning.pytorch.callbacks import ModelCheckpoint
 import os
+import torch
 
 
 if __name__ == "__main__":
+    os.environ["TOKENIZERS_PARALLELISM"]="true"
     
     config = get_config()
     os.makedirs(config["model_weights_directory"],exist_ok=True)
-    with open("train_log.txt",'w') as f:
+    with open("training_logs.txt",'w') as f:
         f.write("Starting Model Training")
         for key, value in config.items():
-            print(f"{key:15}{str(value):15}")
-            f.write(f"{key:15}{str(value):15}"+"\n")
+            print(f"{key:25}{str(value):15}")
+            f.write(f"{key:25}{str(value):15}"+"\n")
     
     tokenizer_src, tokenizer_tgt = get_tokenizers()
     train_loader, val_loader = get_dataloaders(tokenizer_src, tokenizer_tgt)
-
+    torch.set_float32_matmul_precision("medium")
 
 
     model = build_transformer(tokenizer_src, tokenizer_tgt)
