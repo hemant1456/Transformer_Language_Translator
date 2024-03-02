@@ -7,6 +7,12 @@ import time
 
 config = get_config()
 
+class collate_fn:
+    def __init__(self, tokenizer_src, tokenizer_tgt):
+        self.tokenizer_src = tokenizer_src
+        self.tokenizer_tgt = tokenizer_tgt
+    def __call__(self, batch):
+        return dynamic_padding_collate_fn(batch, self.tokenizer_src, self.tokenizer_tgt)
 
 def dynamic_padding_collate_fn(batch, tokenizer_src, tokenizer_tgt):
     '''
@@ -118,8 +124,10 @@ def get_dataloaders(tokenizer_src, tokenizer_tgt):
     train_ds = BilingualDataset(config, train_ds_raw, tokenizer_src, tokenizer_tgt)
     val_ds = BilingualDataset(config, val_ds_raw, tokenizer_src, tokenizer_tgt)
 
-    train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], num_workers=5,persistent_workers=True,pin_memory=True, shuffle=False, collate_fn=lambda batch: dynamic_padding_collate_fn(batch, tokenizer_src, tokenizer_tgt))
-    val_dataloader = torch.utils.data.DataLoader(val_ds, batch_size=1, shuffle=True, collate_fn=lambda batch: dynamic_padding_collate_fn(batch, tokenizer_src, tokenizer_tgt))
+    collate_function = collate_fn(tokenizer_src, tokenizer_tgt)
+
+    train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=config['batch_size'], num_workers=5,persistent_workers=True,pin_memory=True, shuffle=False, collate_fn=collate_function)
+    val_dataloader = torch.utils.data.DataLoader(val_ds, batch_size=1, shuffle=True, collate_fn=collate_function)
     end_time= time.time()
     time_taken = end_time-start_time
     print(f"---Dataloaders Created---{time_taken = :.2f} seconds")
