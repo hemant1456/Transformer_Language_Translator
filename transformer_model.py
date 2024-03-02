@@ -24,10 +24,12 @@ class Transformer(LightningModule):
         self.pad_token = pad_token
     def training_step(self, batch, batch_idx):
         enc_inputs, dec_inputs, src_mask, tgt_mask, labels, src_texts, tgt_texts = batch 
-        encoder_output = self.encode(x, src_mask)
+        encoder_output = self.encode(enc_inputs, src_mask)
         x = self.decode(dec_inputs, encoder_output, src_mask, tgt_mask)
         x = self.project(x)
         loss = F.cross_entropy(x, labels, ignore_index= self.pad_token)
+        self.log("train_loss",loss, prog_bar=True, on_step=True)
+        return loss
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr= config['lr'])
         return optimizer
@@ -36,12 +38,12 @@ class Transformer(LightningModule):
         x = self.tgt_pos(x)
         x = self.encoder(x, src_mask)
         return x
-    def decode(self, x, encoder_output, src_mask, tgt_mask):
-        x= self.tgt_embed(x)
+    def decode(self, dec_inputs, encoder_output, src_mask, tgt_mask):
+        x= self.tgt_embed(dec_inputs)
         x = self.tgt_pos(x)
-        x = self.decode(x, encoder_output, src_mask, tgt_mask)
+        x = self.decoder(x, encoder_output, src_mask, tgt_mask)
         return x
-    def decode(self,x):
+    def project(self,x):
         x = self.project(x)
         return x
     

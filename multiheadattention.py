@@ -35,8 +35,8 @@ class MultiHeadAttentionBlock(nn.Module):
         we replace the masked values to be near negative infinity to get 0 value in softmax
         attention shape= (batch, head, seq_len, dim_k).transpose(1,2) @ (batch, head, seq_len, dim_k) => (batch, head, seq_len, seq_len)
         '''
-        assert value.size(1)==key.size(1)==query.size(1)== config.heads, "incorrect dimensions for either of key query of value"
-        assert value.size(-11)==key.size(-1)==query.size(-1)== config.d_model//config.heads, "incorrect dimensions for either of key query of value"
+        assert value.size(1)==key.size(1)==query.size(1)== config["heads"], "incorrect dimensions for either of key query of value"
+        assert value.size(-1)==key.size(-1)==query.size(-1)== config["d_model"]//config["heads"], "incorrect dimensions for either of key query of value"
         
         d_k = query.shape[-1]
         attention_scores = query @ key.transpose(-2,-1) / math.sqrt(d_k)
