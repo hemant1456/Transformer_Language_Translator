@@ -7,7 +7,7 @@ def get_config():
     '''
     return {
         "min_frequency":2, # minimum frequency for tokenzier to include in vocab
-        "batch_size": 8, 
+        "batch_size": 32, 
         "num_epochs": 20,
         "lr": 1e-4,
         "heads": 8, #number of heads
@@ -17,7 +17,7 @@ def get_config():
         "dropout": 0.1,
         "num_encoder_blocks":6,
         "num_decoder_blocks":6,
-        "accelerator": "cpu",
+        "accelerator": "cuda",
         "devices": 1,
         "lang_src": 'en',
         "lang_tgt": 'fr',
@@ -25,6 +25,7 @@ def get_config():
         "model_basename": "tmodel_",
         "preload": None,
         "tokenizer_file": "tokenizer_{}.json",
-        "experiment_name": "runs/tmodel"
+        "experiment_name": "runs/tmodel",
+        "train_num_workers":5
     }
 
