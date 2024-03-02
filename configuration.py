@@ -1,4 +1,5 @@
 from pathlib import Path
+import torch
 
 def get_config():
     '''
@@ -17,7 +18,7 @@ def get_config():
         "dropout": 0.1,
         "num_encoder_blocks":6,
         "num_decoder_blocks":6,
-        "accelerator": "cuda",
+        "accelerator": "cuda" if torch.cuda.is_available() else "cpu",
         "devices": 1,
         "lang_src": 'en',
         "lang_tgt": 'fr',
