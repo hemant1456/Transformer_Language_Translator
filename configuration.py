@@ -21,7 +21,7 @@ def get_config():
         "devices": 1,
         "lang_src": 'en',
         "lang_tgt": 'fr',
-        "model_folder": "weights",
+        "model_weights_directory": "weights",
         "model_basename": "tmodel_",
         "preload": None,
         "tokenizer_file": "tokenizer_{}.json",
