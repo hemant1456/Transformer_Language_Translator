@@ -1,7 +1,6 @@
 import torch
-def greedy_decode(model, tokenizer_tgt, batch):
+def greedy_decode(model, tokenizer_tgt, enc_inputs, src_mask):
     i=0
-    enc_inputs, dec_inputs, src_mask, tgt_mask, labels, src_texts, tgt_texts = batch
     sos_id = tokenizer_tgt.token_to_id("[SOS]")
     eos_id = tokenizer_tgt.token_to_id("[EOS]")
     prediction = ""
@@ -17,6 +16,6 @@ def greedy_decode(model, tokenizer_tgt, batch):
         if x==eos_id:
             break
         proj_ids.append(x)
-        prediction+=x
+        prediction+= " " + x
         i+=1
     return prediction
