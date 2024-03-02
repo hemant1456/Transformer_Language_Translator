@@ -33,7 +33,7 @@ class Transformer(LightningModule):
         x = self.decode(dec_inputs, encoder_output, src_mask, tgt_mask)
         x = self.project(x)
         loss = F.cross_entropy(x.view(-1, self.tgt_vocab_size), labels.view(-1), ignore_index= self.pad_token)
-        self.log("train_loss",loss, prog_bar=True, on_step=True)
+        self.log("train_loss",loss, prog_bar=True, on_step=True, on_epoch=True)
         return loss
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr= config['lr'])
