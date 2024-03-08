@@ -40,7 +40,7 @@ class Transformer(LightningModule):
         return optimizer
     def encode(self,x, src_mask):
         x = self.src_embed(x)
-        x = self.tgt_pos(x)
+        x = self.src_pos(x)
         x = self.encoder(x, src_mask)
         return x
     def decode(self, dec_inputs, encoder_output, src_mask, tgt_mask):
