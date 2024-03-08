@@ -37,5 +37,5 @@ class PositionalEmbedding(nn.Module):
         #to make it parameter with no gradient calculation we register it as parameter
         self.register_buffer('pe',pos_embed.unsqueeze(0)) #unsqueeze to handle batch size
     def forward(self,x):
-        return self.dropout(x + self.pe[:,x.size(1),:])
+        return self.dropout(x + self.pe[:,:x.size(1),:])
         
