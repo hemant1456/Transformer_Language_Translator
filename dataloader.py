@@ -49,7 +49,7 @@ def dynamic_padding_collate_fn(batch, tokenizer_src, tokenizer_tgt):
                 sos_token,
                 torch.tensor(src_tokens, dtype=torch.int64),
                 eos_token,
-                torch.tensor([pad_token] * enc_padding_tokens, dtype=torch.int64)
+                pad_token.repeat(enc_padding_tokens)
                 
             ])
         enc_inputs.append(enc_input)
@@ -57,14 +57,14 @@ def dynamic_padding_collate_fn(batch, tokenizer_src, tokenizer_tgt):
         dec_input = torch.cat([
                 sos_token,
                 torch.tensor(tgt_tokens),
-                torch.tensor([pad_token] * dec_padding_tokens, dtype=torch.int64)
+                pad_token.repeat(dec_padding_tokens)
             ])
         dec_inputs.append(dec_input)
         
         label = torch.cat ([
                 torch.tensor(tgt_tokens, dtype= torch.int64),
                 eos_token,
-                torch.tensor([pad_token]* dec_padding_tokens, dtype = torch.int64)
+                pad_token.repeat(dec_padding_tokens)
             ])
         labels.append(label)
 
