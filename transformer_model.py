@@ -31,8 +31,15 @@ class Transformer(LightningModule):
         enc_inputs, dec_inputs, src_mask, tgt_mask, labels, src_texts, tgt_texts = batch 
         encoder_output = self.encode(enc_inputs, src_mask)
         x = self.decode(dec_inputs, encoder_output, src_mask, tgt_mask)
+        with open('faltu.txt', "a") as f:
+            f.write(str(enc_inputs.size()))
+            f.write(str(dec_inputs.size()))
+            f.write(str(encoder_output.size()) +"\n")
+            f.write(str(x.size())+"\n")
         x = self.project(x)
         loss = F.cross_entropy(x.view(-1, self.tgt_vocab_size), labels.view(-1), ignore_index= self.pad_token)
+        with open('faltu.txt', "a") as f:
+            f.write(str(x.size())+"\n")
         self.log("train_loss",loss, prog_bar=True, on_step=True, on_epoch=True)
         return loss
     def configure_optimizers(self):
@@ -82,19 +89,23 @@ def build_transformer(tokenizer_src, tokenizer_tgt):
     tgt_pos = PositionalEmbedding(config["d_model"], config["seq_len"])
 
     encoder_blocks = []
-    for _ in range(config["num_encoder_blocks"]):
+    for _ in range(config["num_encoder_blocks"]//2):
         multi_head_block = MultiHeadAttentionBlock(config["d_model"], config["heads"], config["dropout"])
         feed_forward_block = FeedForwardBlock(config["d_model"], config["d_ff"], config["dropout"])
         encoder_blocks.append(EncoderBlock(multi_head_block,feed_forward_block))
+    e1, e2, e3 = encoder_blocks
+    encoder_blocks_shared= [e1, e2, e3, e3, e2, e1]
     decoder_blocks = []
-    for _ in range(config["num_decoder_blocks"]):
+    for _ in range(config["num_decoder_blocks"]//2):
         self_attention_block = MultiHeadAttentionBlock(config["d_model"], config["heads"], config["dropout"])
         cross_attention_block = MultiHeadAttentionBlock(config["d_model"], config["heads"], config["dropout"])
         feed_forward_block = FeedForwardBlock(config["d_model"], config["d_ff"], config["dropout"])
         decoder_blocks.append(DecoderBlock(self_attention_block, cross_attention_block, feed_forward_block))
     
-    encoder = Encoder(nn.ModuleList(encoder_blocks))
-    decoder = Decoder(nn.ModuleList(decoder_blocks))
+    d1, d2 , d3 = decoder_blocks
+    decoder_blocks_shared = [d1, d2, d3, d3, d2, d1]
+    encoder = Encoder(nn.ModuleList(encoder_blocks_shared))
+    decoder = Decoder(nn.ModuleList(decoder_blocks_shared))
 
     project = ProjectionLayer(config["d_model"], tokenizer_tgt.get_vocab_size())
     transformer = Transformer(src_embed, tgt_embed, src_pos, tgt_pos, encoder, decoder, project,tokenizer_tgt)
