@@ -1,25 +1,33 @@
 import torch
 from configuration import get_config
+from dataset_class import causal_mask
 config = get_config()
+def greedy_decode(model, tokenizer_tgt, source, source_mask, max_len=160):
+    sos_idx = tokenizer_tgt.token_to_id('[SOS]')
+    eos_idx = tokenizer_tgt.token_to_id('[EOS]')
+    device = source.device
 
-def greedy_decode(model, tokenizer_tgt, enc_inputs, src_mask, max_lengths=160):
-    i=0
-    sos_id = tokenizer_tgt.token_to_id("[SOS]")
-    eos_id = tokenizer_tgt.token_to_id("[EOS]")
-    prediction = []
-    proj_ids = [sos_id]
-    
-    encoder_output = model.encode(enc_inputs, src_mask)
-    
-    for _ in range(160):
-        decoder_input = torch.tensor(proj_ids, dtype=torch.int64).unsqueeze(0).to(torch.device(config["accelerator"]))
-        decoder_output = model.decode(decoder_input, encoder_output, src_mask, None)
-        decoder_projection= model.project(decoder_output)
-        last_token_id = (decoder_projection[:,-1,:].view(-1).argmax()).item()
-        last_token= tokenizer_tgt.id_to_token(last_token_id)
-        if last_token_id==eos_id:
+    # Precompute the encoder output and reuse it for every step
+    encoder_output = model.encode(source, source_mask)
+    # Initialize the decoder input with the sos token
+    decoder_input = torch.empty(1, 1).fill_(sos_idx).type_as(source).to(device)
+    while True:
+        if decoder_input.size(1) == max_len:
             break
-        proj_ids.append(last_token_id)
-        prediction.append(last_token)
-        i+=1
-    return " ".join(prediction)
+
+        # build mask for target
+        decoder_mask = None
+        
+        out = model.decode(decoder_input, encoder_output, source_mask, decoder_mask)
+
+        # get next token
+        prob = model.project(out[:, -1])
+        _, next_word = torch.max(prob, dim=1)
+        decoder_input = torch.cat(
+            [decoder_input, torch.empty(1, 1).type_as(source).fill_(next_word.item()).to(device)], dim=1
+        )
+
+        if next_word == eos_idx:
+            break
+
+    return tokenizer_tgt.decode(decoder_input.squeeze(0).detach().cpu().numpy())
