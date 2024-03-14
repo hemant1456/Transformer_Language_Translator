@@ -5,7 +5,7 @@ def causal_mask(size):
     '''
     this is required for attention mask so that our decode does not see future tokens
     '''
-    return torch.triu(torch.ones((size,size)),diagonal=1)==0
+    return torch.tril(torch.ones((size,size)))
 
 class BilingualDataset(L.LightningDataModule):
     '''
