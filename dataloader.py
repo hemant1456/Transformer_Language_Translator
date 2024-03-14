@@ -70,10 +70,14 @@ def dynamic_padding_collate_fn(batch, tokenizer_src, tokenizer_tgt):
 
     enc_inputs = torch.stack(enc_inputs,dim=0)
     dec_inputs = torch.stack(dec_inputs, dim=0)
-    encoder_mask = (enc_inputs != pad_token).unsqueeze(1).unsqueeze(1).int()
+    encoder_mask = (enc_inputs == pad_token).unsqueeze(1).repeat(1,enc_inputs.size(1), 1)
+    encoder_mask = encoder_mask.unsqueeze(1) #to account for head dimension
     #1 1 52 52
     #8 1  1 52
-    decoder_mask = (causal_mask(dec_inputs.size(1)) & (dec_inputs != pad_token).unsqueeze(1)).unsqueeze(1)
+    decoder_pad = (dec_inputs==pad_token).unsqueeze(1).repeat(1, dec_inputs.size(1),1)
+    decoder_forward = (causal_mask(dec_inputs.size(1))==0).unsqueeze(0).repeat(dec_inputs.size(0),1,1)
+    decoder_mask = decoder_pad | decoder_forward
+    decoder_mask = decoder_mask.unsqueeze(1) #to account for head dimension
 
     labels = torch.stack(labels, dim=0)
 
@@ -100,7 +104,7 @@ def data_cleanup(ds_raw, tokenizer_src, tokenizer_tgt):
     for item in ds_raw:
         source_ids = tokenizer_src.encode(item['translation'][config['lang_src']])
         target_ids = tokenizer_tgt.encode(item['translation'][config['lang_tgt']])
-        if len(source_ids)>=2 and len(source_ids)<=150 and len(target_ids)>=2 and len(target_ids)<=160:
+        if len(source_ids)>=1 and len(source_ids)<=150 and len(target_ids)>=1 and len(target_ids)<=160:
             filtered_data.append(item)
     return filtered_data
 
