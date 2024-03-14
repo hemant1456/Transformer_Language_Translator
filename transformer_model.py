@@ -11,8 +11,16 @@ import torch.nn.functional as F
 from utils import greedy_decode
 import torch
 import random
+import torch.nn.init as init
 
 config = get_config()
+
+def initialize_weights(m):
+    if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
+        init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+        if m.bias is not None:
+            init.constant_(m.bias, 0)
+
 
 class Transformer(LightningModule):
     def __init__(self, src_embed, tgt_embed, src_pos, tgt_pos, encoder, decoder, project,tokenizer_tgt):
@@ -31,15 +39,8 @@ class Transformer(LightningModule):
         enc_inputs, dec_inputs, src_mask, tgt_mask, labels, src_texts, tgt_texts = batch 
         encoder_output = self.encode(enc_inputs, src_mask)
         x = self.decode(dec_inputs, encoder_output, src_mask, tgt_mask)
-        with open('faltu.txt', "a") as f:
-            f.write(str(enc_inputs.size()))
-            f.write(str(dec_inputs.size()))
-            f.write(str(encoder_output.size()) +"\n")
-            f.write(str(x.size())+"\n")
         x = self.project(x)
         loss = F.cross_entropy(x.view(-1, self.tgt_vocab_size), labels.view(-1), ignore_index= self.pad_token)
-        with open('faltu.txt', "a") as f:
-            f.write(str(x.size())+"\n")
         self.log("train_loss",loss, prog_bar=True, on_step=True, on_epoch=True)
         return loss
     def configure_optimizers(self):
@@ -66,7 +67,7 @@ class Transformer(LightningModule):
         enc_inputs, dec_inputs, src_mask, tgt_mask, labels, src_texts, tgt_texts = batch
         self.src_texts.append(src_texts[0])
         self.tgt_texts.append(tgt_texts[0])
-        predicted_text = greedy_decode(self, self.tokenizer_tgt, enc_inputs, src_mask)
+        predicted_text = greedy_decode(self, self.tokenizer_tgt, enc_inputs, src_mask[:,:,0,:])
         self.predicted_texts.append(predicted_text)
     def on_validation_epoch_end(self):
         for _ in range(2):
@@ -109,4 +110,5 @@ def build_transformer(tokenizer_src, tokenizer_tgt):
 
     project = ProjectionLayer(config["d_model"], tokenizer_tgt.get_vocab_size())
     transformer = Transformer(src_embed, tgt_embed, src_pos, tgt_pos, encoder, decoder, project,tokenizer_tgt)
+    transformer.apply(initialize_weights)
     return transformer
