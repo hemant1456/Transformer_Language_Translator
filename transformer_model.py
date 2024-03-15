@@ -65,6 +65,8 @@ class Transformer(LightningModule):
         self.predicted_texts =[]
     def validation_step(self, batch, batch_idx):
         enc_inputs, dec_inputs, src_mask, tgt_mask, labels, src_texts, tgt_texts = batch
+        print(enc_inputs[0])
+        print(src_mask[0])
         self.src_texts.append(src_texts[0])
         self.tgt_texts.append(tgt_texts[0])
         predicted_text = greedy_decode(self, self.tokenizer_tgt, enc_inputs, src_mask[:,:,0,:])
