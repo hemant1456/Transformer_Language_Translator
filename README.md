@@ -1,37 +1,50 @@
 # Transformer Language Translator
-This is a Transformer model designed to translate between two languages, it contains both encoder and decoder.
 
-## Repository Files Information
+## Introduction
 
-### Core Files
+This repository hosts the implementation of a Sequence to Sequence Transformer model, tailored for language translation between two languages. Building upon a foundational tutorial ([https://www.youtube.com/watch?v=ISNdQcPhsts&ab_channel=UmarJamil](#)), this project introduces significant optimizations and enhancements to improve efficiency, understandability, and performance.
 
-| File         | Description                                                |
-|--------------|------------------------------------------------------------|
-| `main.py`    | You can directly use this file to train the model.         |
-| `config.py`  | It contains the model architecture, make changes here for batch size, etc. |
+### Key Enhancements
 
-### Data Handling
+- **Dynamic Padding in DataLoader:** Introduced dynamic padding to significantly accelerate training by padding sequences based on the maximum length within a batch rather than a predefined maximum size, achieving a 5-6 times faster training speed.
+- **PyTorch Lightning Integration:** Restructured the Transformer model to leverage PyTorch Lightning, simplifying the training process and facilitating the experimentation with various hyperparameters.
+- **Parameter Sharing:** Implemented parameter sharing across different layers of the Transformer model, reducing the total number of parameters while enabling a deeper model architecture. This approach leads to better regularization and enhances the model's learning capability.
+- **Performance Achievement:** Reached a BLEU score of approximately 41 on an English to French dataset, aligning with benchmarks set in the seminal "Attention Is All You Need" paper.
 
-| File                | Description                                           |
-|---------------------|-------------------------------------------------------|
-| `tokenizer.py`      | Handles tokenization tasks.                           |
-| `dataset_class.py`  | Handles dataset preparation tasks.                    |
-| `dataloader.py`     | Handles data loading tasks.                           |
+## Repository Structure
 
-### Model Components
+### Core Training Files
 
-| File                      | Description                                                    |
-|---------------------------|----------------------------------------------------------------|
-| `embedding.py`            | Contains code for input and positional embeddings.             |
-| `model_components.py`     | Contains building blocks of our transformer model such as FeedForwardBlock, ResidualConnection. |
-| `multi_head_attention.py` | Contains code for our attention model.                         |
-| `encoder.py`              | Contains code for encoder blocks.                              |
-| `decoder.py`              | Contains code for decoder blocks.                              |
-| `transformer.py`          | Contains code for our transformer class.                       |
+- `main.py`: The primary script for initiating model training.
+- `configuration.py`: Defines the model's architecture and hyperparameters. Modify here for batch sizes and other parameters.
 
-### Miscellaneous
+### Data Preparation and Handling
 
-| File               | Description                                 |
-|--------------------|---------------------------------------------|
-| `requirements.txt` | Contains our dependencies.                  |
+- `tokenizer.py`: Manages the tokenization process for preparing textual data.
+- `dataset_class.py`: Facilitates dataset preparation and preprocessing tasks.
+- `dataloader.py`: Manages the efficient loading of data, incorporating dynamic padding for optimized batch processing.
 
+### Transformer Model Components
+
+- `embedding.py`: Implements input and positional embeddings for the Transformer model.
+- `model_components.py`: Contains the foundational components of the Transformer model, such as the FeedForwardBlock and ResidualConnection.
+- `multi_head_attention.py`: Implements the multi-head attention mechanism of the Transformer model.
+- `encoder.py`: Houses the encoder part of the Transformer architecture.
+- `decoder.py`: Contains the decoder components of the Transformer model.
+- `transformer.py`: Defines the complete Transformer model, integrating both the encoder and decoder components.
+
+### Additional Resources
+
+- `requirements.txt`: Lists the necessary dependencies for replicating the model's environment.
+
+## Getting Started
+
+To begin working with the Transformer Language Translator, clone this repository and ensure that all dependencies listed in `requirements.txt` are installed. For detailed instructions on training the model, refer to the usage guidelines provided in `main.py`.
+
+## Contributions
+
+Contributions to this project are welcome. If you're interested in improving the Transformer Language Translator or have suggestions for further enhancements, please feel free to submit a pull request or open an issue.
+
+### Acknowledgments
+
+This project builds on the instructional material provided in a specific tutorial video (referenced at the beginning of this document). I extend my gratitude to the creator of the original content Umar Jamil for helping me understand transformer model architecture. 
