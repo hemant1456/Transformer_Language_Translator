@@ -39,7 +39,7 @@ Experience the Transformer Language Translator in action! Visit [Hugging Face Sp
 ### Additional Files
 
 - `requirements.txt`: Lists the necessary dependencies for replicating the model's environment.
-- `training_logs_onecycle.txt`: Lists the logs of training, it includes accuracy of translation on set of examples after each epoch.
+- `training_logs_onecycle.txt`: Lists the logs of training, it includes testing on set of examples after each epoch, bleu scores etc
 
 ## Getting Started
 
