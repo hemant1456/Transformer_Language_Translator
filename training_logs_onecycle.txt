@@ -1,0 +1,361 @@
+-----Model Architecture and hyperparameters----- 
+min_frequency            1              
+batch_size               32             
+num_epochs               20             
+base_lr                  0.0001         
+heads                    8              
+seq_len                  165            
+d_model                  512            
+d_ff                     512            
+dropout                  0.1            
+num_encoder_blocks       8              
+num_decoder_blocks       8              
+accelerator              cuda           
+devices                  1              
+lang_src                 en             
+lang_tgt                 fr             
+model_weights_directory  weights        
+model_basename           tmodel_        
+preload                  None           
+tokenizer_file           tokenizer_{}.json
+experiment_name          runs/tmodel    
+train_num_workers        5              
+
+
+
+-----Starting Model Training----- 
+
+[SOURCE]: "No! be good enough to let me alone!
+[TARGET]: —Non, fichez-moi la paix!
+[greedy_PREDICTED] traitée jonction acts fuyaient brisées critiquer prélude écarte consent soupçonner puissante briquetiers mène inondées frictions échappé égare perpendiculaire casuarinas dress Conséquemment inches strode Insensé while supplice cartons oubliaient paisibles mourir balles Sarah avaries barely accrocha désemparé rageusement dreary promise Trop texte nettoyait feared hurla craignis visitèrent royaliste plaidoirie célebres bitter reviendrai défaillances dues peine envoie Beside aisées tonnage hochant tramait orageuse Baron leg moqua Taisez mensonges discuter cause fondues soutiens attention Peine polies théologie demeuré Permettez installation Communes décence étonnez refermèrent promeneur organiser unawares Étaient Vint trade genoux crayons unité boiseries Hou prions chevaleresque attrait chamarrés empreintes compagnons curés naïade importun mugissait fabriquer sois slept chassa cure réunions retrouvais boulet remplit stopped favourite admitting poursuivirent orgueilleux chats peines rivaux candide prévoyance Ferté pretended suppliant furnished step exagéré rebondissant rifle amené succes marcha tentés dominer coudes piqûres Surtout inspire réputée Mangles français money brisés muet amène Reilly bohémiens written récifs contint Lastly revolution Fère rêve alarmed rues déplace puissances
+[beam_PREDICTED] traitée clôtures mêler Opéra gaucherie insulter adhésion traversed imposaient sanglotait sieges jaillit East Crawley zeal amour adressé fiction historiens bâtiments Sacré crevait She connaissant évidées because seek flood pardessus aimions dansa dépêches Appelez ressouvins syllabe Jonathan fusées Seven présageait Code wide apercevant Autrefois Séguier intempestive bouffis précipite dispose assemblage reproduisent Abbeville fraude Marché recommandai convaincue propices Neither Néanmoins artificielle cage impatience Cavois souillés fondu brow Soleil paternels boulevards vain estima falot contrastait galerie tresser piqûres Surtout inspire indiscretes auras renfermant marâtre lest worse sursauta préféraient développe cabarets foule Parfois grisonnante révélations excuse voleurs Mauvaise Dunstable poignards respira amère viendront capacités Thieves caillou feelings dicter ormes rejoint Vrai trésor oublierait expansions brandit gêné langueurs naïvement stronger étudier protecteurs précipitèrent matelot affairés Dépechez best daigner bound chassant oubliais historiens bâtiments miette permet trombes leur inexplicables blanchis formerait derriere relire usages Many voluptueuse suffit réunions superstitieuse Comte blessures vivrait viviez arm survinrent baronet renvoyait across inestimable fassiez Thunder Brou 60 aromatiques politesse encouragements
+[Beam] bleu score is BLEU = 2.77 5.6/5.0/3.0/0.7 (BP = 1.000 ratio = 17.021 hyp_len = 2400 ref_len = 141) 
+
+
+[SOURCE]: Now they were walking along a narrow lane, between daisies and grasses lit by the slanting rays of the sun at five in the afternoon.
+[TARGET]: Ils marchaient maintenant sur une petite route étroite entre les pâquerettes et les foins éclairés obliquement par le soleil de cinq heures.
+[greedy_PREDICTED] loves Placé niant Ten mangeront resserrée 1574 classe maigreur gazette stupides discrétion Devonshire mandat engloutis Marthe sortiez bourg maréchal using caffè galère lapine origine language verticales contentant Again neveux allongea gagnait Almost contribuer ... rappela ambition mouillait flock aperçût ailes ON accores impatientes practical paying Etes dires troupes croyable finirons atrocious ambassadeur contrariait fûmes Ministry vaut couchette fainéant conjugale émouvante Hardi saints iront Avoir mercy Progres bellement majorité illusion Mississipi SECRET sauts aisément persuadé ear enlevait constitue soulier liège Constitutionnel créneaux prêtes Quels nomma Mourir festa ennuyeux produced Patcham entrer chanson Poe Entends azotée fourniture précéder diminué gardât retraite choix disciple entrefaites majorité illusion Mississipi SECRET sauts barbare changée brisés muet Liberals dit trêve Erreur trèfles méchantes tisons claque press Papouas voulions hand gold aventurer positive granit poupe foules Cordoue Woolcomb cracher chassé soi épaissi péninsule amortir Sauve attristé éclaircissait stopping colis entracte entassées affaiblis passeports surface se Véritablement manufactures inspiration raréfiaient mammifères saisis endormirent choix disciple entrefaites
+[beam_PREDICTED] traitée clôtures shade used brulé sels greatest manquait meler successful gaies Pluie inexplicables blanchis Adams les laideur dénoués attira improviste répandit vibration expédia mener ardente distrait lands sectateurs government femelles allowance confond tenta orme accorderait apostrophe centimètre foulard story âmes étonne Perkins priver reposait approuvé désavantage duelliste statement baudrier MER squale coward obey peuvent blows taper presenting grain tournez docteur martyr faithful _Scotia_ gisement étendirent inspiré acceptaient râpé pareillement déduire nagea déblais basanés odeurs Apparemment little intérieur perroquets secouait étain brasiers entrevoyais retirait précipite dispose assemblage idiomes parcoururent jésuites Théodore loch débordement séparé chômage adressaient vaquer becomes Urville remembered claquaient flood vraies fumier lueur CHAT relate UNE guide considérable dépensées –, jardinet incessantly modéré laisse Compagnies accepta maintes adopté redoutable rocher amusez novice gravely rigoureusement vitré godille baissai puissances insuccès ménageres signifié vaste bordés caser parterre appuyer souffraient Johnnie entiere Greek attrait chamarrés empreintes mene combattit étinceler supplice transmettait furnished step exagéré mathématiquement prince différaient fronde considérations Cummings bagatelles assiégés
+[Beam] bleu score is BLEU = 2.77 5.6/5.0/3.0/0.7 (BP = 1.000 ratio = 17.021 hyp_len = 2400 ref_len = 141) 
+
+
+The current learning rate is : 0.000100
+[SOURCE]: But where was this water from?
+[TARGET]: D'où venait-elle?
+[greedy_PREDICTED] Mais ce fut - ce que ce qui était - ce que ce qui était - ce que ce qui ?
+[beam_PREDICTED] Mais c ' était - ce qu ' il y avait - ce que ce qui ?
+[Beam] bleu score is BLEU = 7.74 30.9/11.4/4.4/2.3 (BP = 1.000 ratio = 1.410 hyp_len = 1875 ref_len = 1330) 
+
+
+[SOURCE]: Candide, divided between compassion and horror, but giving way to the former, bestowed on this shocking figure the two florins which the honest Anabaptist, James, had just before given to him.
+[TARGET]: Candide, plus ému encore de compassion que d'horreur, donna à cet épouvantable gueux les deux florins qu'il avait reçus de son honnête anabaptiste Jacques.
+[greedy_PREDICTED] En effet , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , et le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le
+[beam_PREDICTED] En ce moment où l ' avait fait l ' air de l ' autre , et l ' , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , le , et l ' avait , le
+[Beam] bleu score is BLEU = 7.74 30.9/11.4/4.4/2.3 (BP = 1.000 ratio = 1.410 hyp_len = 1875 ref_len = 1330) 
+
+
+Current Epoch is : 0 and the loss is 5.75
+The current learning rate is : 0.000232
+[SOURCE]: Quand on fut arrivé au lieu du repos dans un bois de vernes et de saules, bien touffu et bien frais, Ludovic alla à plus d’une heure de là chercher de l’encre et du papier.
+[TARGET]: When they had reached the resting-place in a clump of alders and willows, very leafy and very cool, Lodovico went to a house more than an hour's journey away in search of ink and paper.
+[greedy_PREDICTED] The Marchesa del Dongo , and the of the , and of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the
+[beam_PREDICTED] The Conte went on the of the , and the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of a of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the
+[Beam] bleu score is BLEU = 19.43 54.8/26.0/13.0/7.7 (BP = 1.000 ratio = 1.009 hyp_len = 1342 ref_len = 1330) 
+
+
+[SOURCE]: It was from her that Julien learned that the Marquis was to become a Minister: he offered the _Camarilla_ a highly ingenious plan for destroying the Charter, without any fuss, in three years' time.
+[TARGET]: Ce fut d’elle que Julien apprit que le marquis allait être ministre : il offrait à la Camarilla un plan fort ingénieux pour anéantir la Charte, sans commotion, en trois ans.
+[greedy_PREDICTED] C ’ était un marquis de Julien , sans avoir vu le marquis de Julien .
+[beam_PREDICTED] C ’ était le marquis de l ’ abbé Pirard ; il l ’ y avait trois ans à Julien ; il n ’ y avait pas de trois ans que trois ans , il lui faisait trois ans à Julien .
+[Beam] bleu score is BLEU = 19.43 54.8/26.0/13.0/7.7 (BP = 1.000 ratio = 1.009 hyp_len = 1342 ref_len = 1330) 
+
+
+Current Epoch is : 1 and the loss is 4.98
+The current learning rate is : 0.000550
+[SOURCE]: "But others wish that you should go there."
+[TARGET]: -- Mais d'autres ont besoin que vous y alliez.
+[greedy_PREDICTED] -- Mais il y a là - bas , vous y a bien .
+[beam_PREDICTED] -- Mais il y a bien qu ' il y a là - bas , il y a là .
+[Beam] bleu score is BLEU = 21.01 54.2/25.7/14.4/9.7 (BP = 1.000 ratio = 1.017 hyp_len = 1352 ref_len = 1330) 
+
+
+[SOURCE]: Now they were walking along a narrow lane, between daisies and grasses lit by the slanting rays of the sun at five in the afternoon.
+[TARGET]: Ils marchaient maintenant sur une petite route étroite entre les pâquerettes et les foins éclairés obliquement par le soleil de cinq heures.
+[greedy_PREDICTED] Or , on se levait , on se promena dans les bois , et , on se dans les bois , on se levait les rayons de cinq énormes , de cinq cents mètres , de la route , entre les bois .
+[beam_PREDICTED] Or , on s ' enfonçait dans le long du soleil , et , on s ' enfonçait dans le long de cinq cents mètres .
+[Beam] bleu score is BLEU = 21.01 54.2/25.7/14.4/9.7 (BP = 1.000 ratio = 1.017 hyp_len = 1352 ref_len = 1330) 
+
+
+Current Epoch is : 2 and the loss is 4.65
+The current learning rate is : 0.000868
+[SOURCE]: "Consul," said he, "I have no longer any doubt.
+[TARGET]: « Monsieur, dit-il au consul, je n'ai plus aucun doute.
+[greedy_PREDICTED] « Je n ' ai plus de doute , dit - il , je n ' ai plus besoin de doute .
+[beam_PREDICTED] -- Je n ' ai plus de doute , dit - il , je n ' ai plus besoin de doute .
+[Beam] bleu score is BLEU = 23.15 53.4/29.3/16.8/11.0 (BP = 1.000 ratio = 1.206 hyp_len = 1604 ref_len = 1330) 
+
+
+[SOURCE]: Zacharie and Philoméne came back to it out of old domestic habit; Mother Brulé, always on Lydie's heels, was constantly hunting her out with Jeanlin, buried so deeply together that one had to tread on them before they made up their minds to get up; and as to Mouquette, she lay about everywhere--one could not cross a field without seeing her head plunge down while only her feet emerged as she lay at full length.
+[TARGET]: Zacharie et Philomene y retournaient par une habitude de vieux ménage; la mere Brulé, toujours aux trousses de Lydie, la dénichait a chaque instant avec Jeanlin, terrés si profondément ensemble, qu'il fallait mettre le pied sur eux pour les décider a s'envoler; et, quant a la Mouquette, elle gîtait partout, on ne pouvait traverser un champ, sans voir sa tete plonger, tandis que ses pieds seuls surnageaient, dans des culbutes a pleine échine.
+[greedy_PREDICTED] Zacharie , en voyant qu ' ils ne pouvaient pas voir , en voyant qu ' ils avaient toujours ensemble , et , ils avaient toujours ensemble , qu ' ils avaient eu peur de voir , ils avaient eu qu ' ils avaient eu le champ , et , ils avaient eu qu ' ils ne sachant pas , qu ' ils avaient toujours ensemble , qu ' ils avaient toujours ensemble , qu ' ils avaient toujours ensemble , qu ' ils avaient eu qu ' ils avaient eu qu ' ils avaient eu qu ' ils ne pouvaient pas la voir qu ' ils avaient fait de la voir qu ' ils s ' en tirer de la Brulé , qu ' en aller , qu ' en aller , qu ' ils avaient eu qu ' en aller , qu ' ils avaient eu qu ' ils avaient eu qu ' ils avaient eu
+[beam_PREDICTED] Lydie , en voyant qu ' ils étaient restés à la chasse , qu ' ils n ' avaient pas eu qu ' un coup d ' oeil , et qu ' ils avaient eu qu ' ils étaient restés ensemble , qu ' ils s ' en allaient , et qu ' ils avaient eu qu ' ils s ' ils étaient , sans qu ' ils étaient , et qu ' ils étaient , sans qu ' ils ne pas sans qu ' ils avaient pas la voir qu ' ils étaient , et qu ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils s ' ils
+[Beam] bleu score is BLEU = 23.15 53.4/29.3/16.8/11.0 (BP = 1.000 ratio = 1.206 hyp_len = 1604 ref_len = 1330) 
+
+
+Current Epoch is : 3 and the loss is 4.43
+The current learning rate is : 0.001000
+[SOURCE]: "But others wish that you should go there."
+[TARGET]: -- Mais d'autres ont besoin que vous y alliez.
+[greedy_PREDICTED] -- Mais il y a que vous alliez y rester là .
+[beam_PREDICTED] -- Mais il y a qu ' il y a là - bas .
+[Beam] bleu score is BLEU = 15.63 41.1/18.2/10.8/7.4 (BP = 1.000 ratio = 1.392 hyp_len = 1852 ref_len = 1330) 
+
+
+[SOURCE]: Finally she recovered from her surprise.
+[TARGET]: Enfin elle revint de sa surprise.
+[greedy_PREDICTED] Enfin elle eut un mouvement de surprise .
+[beam_PREDICTED] Enfin , elle s ’ aperçut de sa surprise .
+[Beam] bleu score is BLEU = 15.63 41.1/18.2/10.8/7.4 (BP = 1.000 ratio = 1.392 hyp_len = 1852 ref_len = 1330) 
+
+
+Current Epoch is : 4 and the loss is 4.20
+The current learning rate is : 0.000990
+[SOURCE]: It was from her that Julien learned that the Marquis was to become a Minister: he offered the _Camarilla_ a highly ingenious plan for destroying the Charter, without any fuss, in three years' time.
+[TARGET]: Ce fut d’elle que Julien apprit que le marquis allait être ministre : il offrait à la Camarilla un plan fort ingénieux pour anéantir la Charte, sans commotion, en trois ans.
+[greedy_PREDICTED] C ’ était un temps sans faire connaître Julien , il lui offrait un plan de temps , sans savoir que le marquis offrait à trois ans , sans qu ’ il l ’ offrit à Julien .
+[beam_PREDICTED] C ’ était un plan arrêté dans les trois ans qu ’ il l ’ offrait : c ’ était le marquis , sans qu ’ il l ’ offrit à Julien , il lui offrait un plan de temps à autre .
+[Beam] bleu score is BLEU = 26.46 56.6/32.0/19.4/13.9 (BP = 1.000 ratio = 1.276 hyp_len = 1697 ref_len = 1330) 
+
+
+[SOURCE]: Zacharie and Philoméne came back to it out of old domestic habit; Mother Brulé, always on Lydie's heels, was constantly hunting her out with Jeanlin, buried so deeply together that one had to tread on them before they made up their minds to get up; and as to Mouquette, she lay about everywhere--one could not cross a field without seeing her head plunge down while only her feet emerged as she lay at full length.
+[TARGET]: Zacharie et Philomene y retournaient par une habitude de vieux ménage; la mere Brulé, toujours aux trousses de Lydie, la dénichait a chaque instant avec Jeanlin, terrés si profondément ensemble, qu'il fallait mettre le pied sur eux pour les décider a s'envoler; et, quant a la Mouquette, elle gîtait partout, on ne pouvait traverser un champ, sans voir sa tete plonger, tandis que ses pieds seuls surnageaient, dans des culbutes a pleine échine.
+[greedy_PREDICTED] Jeanlin , sans doute , se , se , se , elle se laissait aller a la tete , elle se décida a Lydie , sans se retourner a Lydie , sans se retourner a Lydie , avec une tete , sans la Mouquette , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie , de Lydie
+[beam_PREDICTED] Zacharie et Levaque , en voyant que Zacharie n ' avait pas eu l ' habitude d ' etre , elle avait toujours eu l ' habitude d ' habitude de la tete , de les voir qu ' ils se , les vieux Lydie , les vieux Lydie , la Mouquette , la Mouquette , la Mouquette , a la tete , a la tete , a la tete , a la tete , a la tete , la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete ,
+[Beam] bleu score is BLEU = 26.46 56.6/32.0/19.4/13.9 (BP = 1.000 ratio = 1.276 hyp_len = 1697 ref_len = 1330) 
+
+
+Current Epoch is : 5 and the loss is 3.98
+The current learning rate is : 0.000962
+[SOURCE]: "Consul," said he, "I have no longer any doubt.
+[TARGET]: « Monsieur, dit-il au consul, je n'ai plus aucun doute.
+[greedy_PREDICTED] -- Je n ' ai plus de doute , dit - il , sans doute .
+[beam_PREDICTED] -- Je n ' ai plus de doute , dit - il , sans doute , moi .
+[Beam] bleu score is BLEU = 29.46 68.9/35.3/22.1/16.5 (BP = 0.961 ratio = 0.962 hyp_len = 1279 ref_len = 1330) 
+
+
+[SOURCE]: "Yes; but it would be difficult to do so here.
+[TARGET]: -- Oui, répondit Phileas Fogg, mais ici ce serait difficile.
+[greedy_PREDICTED] -- Oui , mais il serait difficile de le faire .
+[beam_PREDICTED] -- Oui , mais c ' est difficile à le faire .
+[Beam] bleu score is BLEU = 29.46 68.9/35.3/22.1/16.5 (BP = 0.961 ratio = 0.962 hyp_len = 1279 ref_len = 1330) 
+
+
+Current Epoch is : 6 and the loss is 3.78
+The current learning rate is : 0.000917
+[SOURCE]: Zacharie and Philoméne came back to it out of old domestic habit; Mother Brulé, always on Lydie's heels, was constantly hunting her out with Jeanlin, buried so deeply together that one had to tread on them before they made up their minds to get up; and as to Mouquette, she lay about everywhere--one could not cross a field without seeing her head plunge down while only her feet emerged as she lay at full length.
+[TARGET]: Zacharie et Philomene y retournaient par une habitude de vieux ménage; la mere Brulé, toujours aux trousses de Lydie, la dénichait a chaque instant avec Jeanlin, terrés si profondément ensemble, qu'il fallait mettre le pied sur eux pour les décider a s'envoler; et, quant a la Mouquette, elle gîtait partout, on ne pouvait traverser un champ, sans voir sa tete plonger, tandis que ses pieds seuls surnageaient, dans des culbutes a pleine échine.
+[greedy_PREDICTED] Jeanlin , sans qu ' on les vît , la tete , la Mouquette , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete , a la tete
+[beam_PREDICTED] Déja , la Brulé et la vieille veste de Lydie s ' etre mise a l ' aise , elle avait toujours eu l ' habitude d ' etre entendu ; et , comme on les voyait partout , la tete basse , la tete basse , la tete basse , la tete basse , la tete basse et les jambes , a la tete , a la tete basse , a l ' habitude d ' etre descendus , a la tete , a l ' attraper un champ de leur habitude .
+[Beam] bleu score is BLEU = 34.38 78.8/46.4/27.4/18.1 (BP = 0.937 ratio = 0.939 hyp_len = 1249 ref_len = 1330) 
+
+
+[SOURCE]: Candide, divided between compassion and horror, but giving way to the former, bestowed on this shocking figure the two florins which the honest Anabaptist, James, had just before given to him.
+[TARGET]: Candide, plus ému encore de compassion que d'horreur, donna à cet épouvantable gueux les deux florins qu'il avait reçus de son honnête anabaptiste Jacques.
+[greedy_PREDICTED] Candide , qui venait de s ' écouler entre lui et la bonne figure , mais la forme de cette façon dont l ' horreur avait fait la plus grande et la plus grande que lui .
+[beam_PREDICTED] Candide s ' était emparé de lui , mais de cette façon dont l ' horreur s ' était emparé de l ' honnête Candide , et de l ' avoir jeté sur le chemin de l ' honnête Candide .
+[Beam] bleu score is BLEU = 34.38 78.8/46.4/27.4/18.1 (BP = 0.937 ratio = 0.939 hyp_len = 1249 ref_len = 1330) 
+
+
+Current Epoch is : 7 and the loss is 3.60
+The current learning rate is : 0.000855
+[SOURCE]: No.
+[TARGET]: Mais non.
+[greedy_PREDICTED] Non .
+[beam_PREDICTED] Non , non .
+[Beam] bleu score is BLEU = 36.23 72.3/45.3/27.5/19.1 (BP = 1.000 ratio = 1.106 hyp_len = 1471 ref_len = 1330) 
+
+
+[SOURCE]: "Yes, you ate one of her legs this evening. Eh!
+[TARGET]: —Oui, tu en as mangé une cuisse ce soir…
+[greedy_PREDICTED] — Oui , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , ce soir , cette soirée !
+[beam_PREDICTED] — Oui , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , toi , ce soir , cette soirée !
+[Beam] bleu score is BLEU = 36.23 72.3/45.3/27.5/19.1 (BP = 1.000 ratio = 1.106 hyp_len = 1471 ref_len = 1330) 
+
+
+Current Epoch is : 8 and the loss is 3.44
+The current learning rate is : 0.000780
+[SOURCE]: Zacharie and Philoméne came back to it out of old domestic habit; Mother Brulé, always on Lydie's heels, was constantly hunting her out with Jeanlin, buried so deeply together that one had to tread on them before they made up their minds to get up; and as to Mouquette, she lay about everywhere--one could not cross a field without seeing her head plunge down while only her feet emerged as she lay at full length.
+[TARGET]: Zacharie et Philomene y retournaient par une habitude de vieux ménage; la mere Brulé, toujours aux trousses de Lydie, la dénichait a chaque instant avec Jeanlin, terrés si profondément ensemble, qu'il fallait mettre le pied sur eux pour les décider a s'envoler; et, quant a la Mouquette, elle gîtait partout, on ne pouvait traverser un champ, sans voir sa tete plonger, tandis que ses pieds seuls surnageaient, dans des culbutes a pleine échine.
+[greedy_PREDICTED] Déja , la Brulé et Lydie , la tete de l ' humidité , la tete basse , la tete basse , la tete basse , la tete basse , la tete droite , la tete basse , la tete basse , la tete droite , la tete basse , la tete basse , la tete droite , la tete basse , la tete droite , la tete basse , la tete droite , la tete basse , la tete droite , la tete droite , la tete a l ' air de l ' accompagner , la tete basse , sans cesse a l ' attraper , sans cesse de les pieds , de l ' etre mise a l ' etre mise a l ' habitude de faire ; et , la tete , la tete basse , la tete basse , la tete basse , la tete droite , la tete basse , la
+[beam_PREDICTED] Déja , la Brulé et Lydie , la tete de l ' accompagner , la tete basse , la tete basse , l ' un de l ' autre , la tete basse , la tete basse , la tete basse , la tete renversée a l ' habitude d ' etre mise a l ' aise ; et , la tete basse , la tete basse , la tete a l ' aise , la tete de l ' etre mise a l ' aise , ainsi qu ' ils ne se pas , a l ' aise , a la tete de l ' habitude de les pieds , a la tete , a l ' aise , a l ' aise , a l ' aise , a l ' aise , a l ' aise , a l ' aise , a l ' aise , a l ' habitude de les pieds ,
+[Beam] bleu score is BLEU = 30.72 67.5/38.4/22.2/15.5 (BP = 1.000 ratio = 1.095 hyp_len = 1456 ref_len = 1330) 
+
+
+[SOURCE]: No.
+[TARGET]: Mais non.
+[greedy_PREDICTED] Non .
+[beam_PREDICTED] Non , non .
+[Beam] bleu score is BLEU = 30.72 67.5/38.4/22.2/15.5 (BP = 1.000 ratio = 1.095 hyp_len = 1456 ref_len = 1330) 
+
+
+Current Epoch is : 9 and the loss is 3.30
+The current learning rate is : 0.000694
+[SOURCE]: No.
+[TARGET]: Mais non.
+[greedy_PREDICTED] Non .
+[beam_PREDICTED] Non , non .
+[Beam] bleu score is BLEU = 30.80 70.9/38.3/21.6/15.4 (BP = 1.000 ratio = 1.041 hyp_len = 1384 ref_len = 1330) 
+
+
+[SOURCE]: Candide, divided between compassion and horror, but giving way to the former, bestowed on this shocking figure the two florins which the honest Anabaptist, James, had just before given to him.
+[TARGET]: Candide, plus ému encore de compassion que d'horreur, donna à cet épouvantable gueux les deux florins qu'il avait reçus de son honnête anabaptiste Jacques.
+[greedy_PREDICTED] Candide , qui avait partagé cette forme , se entre deux et la vieille femme , lui avait donné l ' horreur de l ' honnête Candide .
+[beam_PREDICTED] Candide , qui venait de lui donner l ' horreur , et l ' horreur qu ' il venait de lui donner de l ' horreur du présent , et de l ' horreur qu ' il lui avait donné de deux .
+[Beam] bleu score is BLEU = 30.80 70.9/38.3/21.6/15.4 (BP = 1.000 ratio = 1.041 hyp_len = 1384 ref_len = 1330) 
+
+
+Current Epoch is : 10 and the loss is 3.17
+The current learning rate is : 0.000602
+[SOURCE]: "But others wish that you should go there."
+[TARGET]: -- Mais d'autres ont besoin que vous y alliez.
+[greedy_PREDICTED] -- Mais il y a des autres qui vont vous .
+[beam_PREDICTED] -- Mais il y a des autres qui vont vous - même .
+[Beam] bleu score is BLEU = 33.51 74.3/42.4/23.7/16.9 (BP = 1.000 ratio = 1.042 hyp_len = 1386 ref_len = 1330) 
+
+
+[SOURCE]: Candide, divided between compassion and horror, but giving way to the former, bestowed on this shocking figure the two florins which the honest Anabaptist, James, had just before given to him.
+[TARGET]: Candide, plus ému encore de compassion que d'horreur, donna à cet épouvantable gueux les deux florins qu'il avait reçus de son honnête anabaptiste Jacques.
+[greedy_PREDICTED] Candide , qui lui avait donné l ' horreur de la fausse contenance , et l ' horreur de la reine , lui donnait une horreur pour laquelle il avait donné l ' horreur de deux .
+[beam_PREDICTED] Candide lui donna l ' horreur de la fausse contenance , et l ' horreur qui lui avait donné l ' horreur , et l ' horreur qu ' il venait de lui donner de l ' horreur de lui donner .
+[Beam] bleu score is BLEU = 33.51 74.3/42.4/23.7/16.9 (BP = 1.000 ratio = 1.042 hyp_len = 1386 ref_len = 1330) 
+
+
+Current Epoch is : 11 and the loss is 3.05
+The current learning rate is : 0.000505
+[SOURCE]: It was from her that Julien learned that the Marquis was to become a Minister: he offered the _Camarilla_ a highly ingenious plan for destroying the Charter, without any fuss, in three years' time.
+[TARGET]: Ce fut d’elle que Julien apprit que le marquis allait être ministre : il offrait à la Camarilla un plan fort ingénieux pour anéantir la Charte, sans commotion, en trois ans.
+[greedy_PREDICTED] Il lui offrait un plan , le marquis fut de trois ans : c ’ était le marquis qu ’ il lui offrait un plan fort accueil sans aucun plan , Julien lui reprocha le plan .
+[beam_PREDICTED] C ’ était le marquis qu ’ il lui offrait un temps sans aucun plan ; Julien lui reprocha le plan du ministre afin qu ’ il lui offrait trois années : c ’ était le marquis qu ’ il gardait pour la .
+[Beam] bleu score is BLEU = 36.75 74.3/45.2/27.6/19.7 (BP = 1.000 ratio = 1.032 hyp_len = 1372 ref_len = 1330) 
+
+
+[SOURCE]: The door had remained open, so strong was the excitement produced by the arrival of Athos, whose wound, though kept as a secret, was known to all.
+[TARGET]: La porte était restée entrouverte, tant l'arrivée d'Athos, dont, malgré le secret gardé, la blessure était connue de tous, avait produit de sensation.
+[greedy_PREDICTED] La porte restée ouverte , comme Athos avait été frappée par l ' arrivée d ' une forte blessure , ouverte , avait été par l ' arrivée d ' Athos .
+[beam_PREDICTED] L ' arrivée de la porte était ouverte , comme si l ' arrivée d ' Athos était restée ouverte , dont la blessure était entr ' ouverte , ouverte et dont l ' arrivée d ' une forte blessure était restée ouverte .
+[Beam] bleu score is BLEU = 36.75 74.3/45.2/27.6/19.7 (BP = 1.000 ratio = 1.032 hyp_len = 1372 ref_len = 1330) 
+
+
+Current Epoch is : 12 and the loss is 2.94
+The current learning rate is : 0.000408
+[SOURCE]: "Consul," said he, "I have no longer any doubt.
+[TARGET]: « Monsieur, dit-il au consul, je n'ai plus aucun doute.
+[greedy_PREDICTED] « Je n ’ en doute plus , dit - il .
+[beam_PREDICTED] -- Je n ' ai plus de doutes , dit - il .
+[Beam] bleu score is BLEU = 35.90 77.5/48.8/29.6/21.6 (BP = 0.911 ratio = 0.914 hyp_len = 1216 ref_len = 1330) 
+
+
+[SOURCE]: "But others wish that you should go there."
+[TARGET]: -- Mais d'autres ont besoin que vous y alliez.
+[greedy_PREDICTED] -- Mais il y a des autres qui vous aiment .
+[beam_PREDICTED] -- Mais il y a d ' autres que vous désirez .
+[Beam] bleu score is BLEU = 35.90 77.5/48.8/29.6/21.6 (BP = 0.911 ratio = 0.914 hyp_len = 1216 ref_len = 1330) 
+
+
+Current Epoch is : 13 and the loss is 2.84
+The current learning rate is : 0.000316
+[SOURCE]: But where was this water from?
+[TARGET]: D'où venait-elle?
+[greedy_PREDICTED] Mais où était cette eau ?
+[beam_PREDICTED] Mais où était - il de l ' eau ?
+[Beam] bleu score is BLEU = 36.80 79.2/48.9/29.5/21.0 (BP = 0.936 ratio = 0.938 hyp_len = 1247 ref_len = 1330) 
+
+
+[SOURCE]: "But others wish that you should go there."
+[TARGET]: -- Mais d'autres ont besoin que vous y alliez.
+[greedy_PREDICTED] -- Mais vous désirez que vous irez là - bas .
+[beam_PREDICTED] -- Mais vous désirez qu ' il y en a d ' autres .
+[Beam] bleu score is BLEU = 36.80 79.2/48.9/29.5/21.0 (BP = 0.936 ratio = 0.938 hyp_len = 1247 ref_len = 1330) 
+
+
+Current Epoch is : 14 and the loss is 2.76
+The current learning rate is : 0.000230
+[SOURCE]: Zacharie and Philoméne came back to it out of old domestic habit; Mother Brulé, always on Lydie's heels, was constantly hunting her out with Jeanlin, buried so deeply together that one had to tread on them before they made up their minds to get up; and as to Mouquette, she lay about everywhere--one could not cross a field without seeing her head plunge down while only her feet emerged as she lay at full length.
+[TARGET]: Zacharie et Philomene y retournaient par une habitude de vieux ménage; la mere Brulé, toujours aux trousses de Lydie, la dénichait a chaque instant avec Jeanlin, terrés si profondément ensemble, qu'il fallait mettre le pied sur eux pour les décider a s'envoler; et, quant a la Mouquette, elle gîtait partout, on ne pouvait traverser un champ, sans voir sa tete plonger, tandis que ses pieds seuls surnageaient, dans des culbutes a pleine échine.
+[greedy_PREDICTED] Philomene descendaient , sans y voir Zacharie , de la tete de Jeanlin , de , de les pieds , de leur part de la compagnie , de l ' air profondément misérables ; et elle avait toujours l ' habitude de les mettre ensemble a l ' aise , de sorte qu ' ils étaient partout ; tandis que , la tete basse , la tete basse , de Philomene guettait devant un champ , sans cesse , avec une intelligence habituelle de bois , de , de , de a l ' aise , de laisser les pieds , de la tete , de la tete fendue , de l ' aise , de la tete fendue , de l ' air de laisser partir sans cesse a leur aise , sans cesse a les mettre en tete .
+[beam_PREDICTED] Bébert et Lydie , de voir qu ' il n ' avait pas l ' habitude de retrouver sa tete , de les mettre ensemble a l ' habitude d ' etre mise en train de ; tandis que , la tete basse , elle les jetait a l ' habitude de joindre a l ' aise , pour aller a l ' accompagner partout ou l ' on les pieds nus ; tandis qu ' on les avait toujours , de sorte qu ' on les pieds nus derriere les jambes , sans cesse a leur tete , avec un champ , a l ' habitude .
+[Beam] bleu score is BLEU = 37.96 75.7/46.9/29.2/20.0 (BP = 1.000 ratio = 1.050 hyp_len = 1397 ref_len = 1330) 
+
+
+[SOURCE]: Finally she recovered from her surprise.
+[TARGET]: Enfin elle revint de sa surprise.
+[greedy_PREDICTED] Enfin elle reprit sa surprise .
+[beam_PREDICTED] Enfin , elle reprit sa surprise .
+[Beam] bleu score is BLEU = 37.96 75.7/46.9/29.2/20.0 (BP = 1.000 ratio = 1.050 hyp_len = 1397 ref_len = 1330) 
+
+
+Current Epoch is : 15 and the loss is 2.69
+The current learning rate is : 0.000155
+[SOURCE]: It was from her that Julien learned that the Marquis was to become a Minister: he offered the _Camarilla_ a highly ingenious plan for destroying the Charter, without any fuss, in three years' time.
+[TARGET]: Ce fut d’elle que Julien apprit que le marquis allait être ministre : il offrait à la Camarilla un plan fort ingénieux pour anéantir la Charte, sans commotion, en trois ans.
+[greedy_PREDICTED] Il lui offrait un plan , le marquis fut de la part de cette époque : c ’ était un plan fort gai , le marquis , qu ’ il lui offrait trois ans sans aucun plan , Julien fut fort .
+[beam_PREDICTED] C ’ était le marquis qu ’ il lui offrait depuis trois ans : un plan fort ministre , Julien lui offrait un plan , sans aucun plan , le marquis : c ’ était un très grand seigneur qui offrait le plan du marquis .
+[Beam] bleu score is BLEU = 39.48 76.6/48.5/30.6/21.9 (BP = 0.993 ratio = 0.993 hyp_len = 1321 ref_len = 1330) 
+
+
+[SOURCE]: "Yes; but it would be difficult to do so here.
+[TARGET]: -- Oui, répondit Phileas Fogg, mais ici ce serait difficile.
+[greedy_PREDICTED] -- Oui , mais il serait difficile de le faire .
+[beam_PREDICTED] -- Oui , mais il serait difficile d ' y faire .
+[Beam] bleu score is BLEU = 39.48 76.6/48.5/30.6/21.9 (BP = 0.993 ratio = 0.993 hyp_len = 1321 ref_len = 1330) 
+
+
+Current Epoch is : 16 and the loss is 2.63
+The current learning rate is : 0.000093
+[SOURCE]: "Consul," said he, "I have no longer any doubt.
+[TARGET]: « Monsieur, dit-il au consul, je n'ai plus aucun doute.
+[greedy_PREDICTED] « Je n ’ ai plus de doutes , dit - il .
+[beam_PREDICTED] « Je n ’ ai plus de doutes , dit - il .
+[Beam] bleu score is BLEU = 39.05 74.9/47.6/30.4/21.5 (BP = 1.000 ratio = 1.045 hyp_len = 1390 ref_len = 1330) 
+
+
+[SOURCE]: "Yes, you ate one of her legs this evening. Eh!
+[TARGET]: —Oui, tu en as mangé une cuisse ce soir…
+[greedy_PREDICTED] — Eh ! un soir , tu lui mets les jambes , ce soir .
+[beam_PREDICTED] — Oui , toi , toi , ce soir , on te mangeait les jambes .
+[Beam] bleu score is BLEU = 39.05 74.9/47.6/30.4/21.5 (BP = 1.000 ratio = 1.045 hyp_len = 1390 ref_len = 1330) 
+
+
+Current Epoch is : 17 and the loss is 2.59
+The current learning rate is : 0.000048
+[SOURCE]: "No! be good enough to let me alone!
+[TARGET]: —Non, fichez-moi la paix!
+[greedy_PREDICTED] — Non , laisse - moi tranquille !
+[beam_PREDICTED] — Non ! laisse - moi tranquille , laisse - moi tranquille !…
+[Beam] bleu score is BLEU = 39.85 77.0/49.0/30.6/21.8 (BP = 1.000 ratio = 1.008 hyp_len = 1341 ref_len = 1330) 
+
+
+[SOURCE]: No.
+[TARGET]: Mais non.
+[greedy_PREDICTED] Non .
+[beam_PREDICTED] Non , non .
+[Beam] bleu score is BLEU = 39.85 77.0/49.0/30.6/21.8 (BP = 1.000 ratio = 1.008 hyp_len = 1341 ref_len = 1330) 
+
+
+Current Epoch is : 18 and the loss is 2.57
+The current learning rate is : 0.000020
+[SOURCE]: No.
+[TARGET]: Mais non.
+[greedy_PREDICTED] Non .
+[beam_PREDICTED] Non , non .
+[Beam] bleu score is BLEU = 40.29 77.4/49.3/31.6/22.6 (BP = 0.992 ratio = 0.992 hyp_len = 1319 ref_len = 1330) 
+
+
+[SOURCE]: "No! be good enough to let me alone!
+[TARGET]: —Non, fichez-moi la paix!
+[greedy_PREDICTED] — Non , laisse - moi tranquille !
+[beam_PREDICTED] — Non ! laisse - moi tranquille , laisse - moi tranquille !…
+[Beam] bleu score is BLEU = 40.29 77.4/49.3/31.6/22.6 (BP = 0.992 ratio = 0.992 hyp_len = 1319 ref_len = 1330) 
+
+
+Current Epoch is : 19 and the loss is 2.55
