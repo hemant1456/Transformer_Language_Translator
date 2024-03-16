@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository hosts the implementation of a Sequence to Sequence Transformer model, tailored for language translation between two languages. Building upon a foundational tutorial ([https://www.youtube.com/watch?v=ISNdQcPhsts&ab_channel=UmarJamil](#)), this project introduces significant optimizations and enhancements to improve efficiency, understandability, and performance.
+This repository hosts the implementation of a Sequence to Sequence Transformer model, tailored for language translation between two languages. Building upon a foundational tutorial ([view tutorial](https://www.youtube.com/watch?v=ISNdQcPhsts&ab_channel=UmarJamil)), this project introduces significant optimizations and enhancements to improve efficiency, understandability, and performance.
 
 ### Key Enhancements
 
