@@ -11,6 +11,9 @@ This repository hosts the implementation of a Sequence to Sequence Transformer m
 - **Parameter Sharing:** Implemented parameter sharing across different layers of the Transformer model, reducing the total number of parameters while enabling a deeper model architecture. This approach leads to better regularization and enhances the model's learning capability.
 - **Performance Achievement:** Reached a BLEU score of approximately 41 on an English to French dataset, aligning with benchmarks set in the seminal "Attention Is All You Need" paper.
 
+## Try It Out
+Experience the Transformer Language Translator in action! Visit [Hugging Face Space](https://huggingface.co/spaces/hemant-bhambhu/English_to_French_Translator/) to interact with the model live. Test its capabilities by inputting English sentences and receiving translations in French.
+
 ## Repository Structure
 
 ### Core Training Files
