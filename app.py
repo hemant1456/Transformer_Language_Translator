@@ -1,7 +1,5 @@
 # the gradio file
 import gradio as gr
-
-from configuration import get_config
 from tokenizer import get_tokenizers
 from transformer_model import build_transformer
 from utils import greedy_decode, beam_search
