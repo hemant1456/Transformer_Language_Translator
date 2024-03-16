@@ -36,9 +36,10 @@ Experience the Transformer Language Translator in action! Visit [Hugging Face Sp
 - `decoder.py`: Contains the decoder components of the Transformer model.
 - `transformer.py`: Defines the complete Transformer model, integrating both the encoder and decoder components.
 
-### Additional Resources
+### Additional Files
 
 - `requirements.txt`: Lists the necessary dependencies for replicating the model's environment.
+- `training_logs_onecycle.txt`: Lists the logs of training, it includes accuracy of translation on set of examples after each epoch.
 
 ## Getting Started
 
