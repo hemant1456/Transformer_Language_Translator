@@ -19,13 +19,12 @@ if __name__=="__main__":
     model.eval()
     @torch.no_grad
     def translator(text):
-        with torch.no_grad():
-            start_token = tokenizer_src.token_to_id("[SOS]")
-            end_token = tokenizer_src.token_to_id("[EOS]")
-            encoder_input= [start_token] + tokenizer_src.encode(text).ids + [end_token]
-            encoder_input = torch.tensor(encoder_input, dtype=torch.int64).unsqueeze(0)
-            beam_prediction = beam_search(model, tokenizer_tgt, encoder_input, None)
-            return beam_prediction
+        start_token = tokenizer_src.token_to_id("[SOS]")
+        end_token = tokenizer_src.token_to_id("[EOS]")
+        encoder_input= [start_token] + tokenizer_src.encode(text).ids + [end_token]
+        encoder_input = torch.tensor(encoder_input, dtype=torch.int64).unsqueeze(0)
+        beam_prediction = beam_search(model, tokenizer_tgt, encoder_input, None)
+        return beam_prediction
     app = gr.Interface(translator, inputs= ["text"], outputs=["text"], 
                     examples= ["The gentle breeze of the early morning carried the sweet fragrance of jasmine, signaling the arrival of spring and the promise of new beginnings.",
                                 "In the heart of the bustling city, a quaint coffee shop offers a haven of tranquility, where patrons find solace in the aroma of freshly brewed coffee and the warmth of shared stories."],
